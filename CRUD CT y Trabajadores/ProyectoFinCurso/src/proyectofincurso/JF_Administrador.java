@@ -4,9 +4,9 @@ import Controlador.ControladorCRUD_CT;
 import Controlador.ControladorCRUD_Trabajador;
 import Modelo.CT_CRUD;
 import Modelo.Trabajador_CRUD;
-import modelo.*;
+import Modelo.*;
 import proyectofincurso.*;
-import controlador.*;
+import Controlador.*;
 
 public class JF_Administrador extends javax.swing.JFrame {
 
@@ -158,7 +158,7 @@ public class JF_Administrador extends javax.swing.JFrame {
         ControladorCRUD_CT controlador_CT = new ControladorCRUD_CT(vista_CT, modelo_CT);
         vista_CT.setVisible(true);
         vista_CT.setLocationRelativeTo(null);
-        vista_CT.jB_Leer.doClick();
+        //vista_CT.jB_Leer.doClick();
 
     }//GEN-LAST:event_jB_JF_CT_CRUDActionPerformed
 

@@ -19,7 +19,7 @@ public class Trabajador_CRUD {
         String rptaRegistro=null;
         
         try{
-            Connection accesoDB = conexion.getConnection();
+            Connection accesoDB = conexion.getConexion();
             // LLAMADA AL PROCEDIMIENTO ALMACENADO EN ORACLE
             CallableStatement cs = accesoDB.prepareCall("(CALL P_INSERT_TRABAJADOR(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
             // SE RELLENAN TODOS LOS PARAMETROS
@@ -54,7 +54,7 @@ public class Trabajador_CRUD {
         int numFil = 0;
 
         try {
-            Connection accesoDB = conexion.getConnection();
+            Connection accesoDB = conexion.getConexion();
             CallableStatement cs = accesoDB.prepareCall("(CALL PROCEDIMIENTO BORRADO(?) ");
             cs.setString(1,nombre);
 
@@ -71,7 +71,7 @@ public class Trabajador_CRUD {
         ArrayList listaTrabajador = new ArrayList();
         Trabajador trabajador;
         try{
-            Connection accesoDB = conexion.getConnection();
+            Connection accesoDB = conexion.getConexion();
             PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM TRABAJADOR");
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
@@ -107,7 +107,7 @@ public class Trabajador_CRUD {
         int numFil = 0;
 
         try {
-            Connection accesoDB = conexion.getConnection();
+            Connection accesoDB = conexion.getConexion();
             CallableStatement cs = accesoDB.prepareCall("(CALL PROCEDIMIENTO EDICION(?,?,?,?,?,?,?) ");
             cs.setInt(1, ID);
             cs.setString(2, dni);

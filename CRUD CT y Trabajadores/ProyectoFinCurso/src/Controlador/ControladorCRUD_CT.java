@@ -21,7 +21,7 @@ public class ControladorCRUD_CT implements ActionListener, KeyListener {
     public ControladorCRUD_CT(JF_CT_CRUD vista_CT_CRUD, CT_CRUD modelo_CT_CRUD) {
         this.modelo_CT_CRUD = modelo_CT_CRUD;
         this.vista_CT_CRUD = vista_CT_CRUD;
-        
+
         this.vista_CT_CRUD.jB_Crear.addActionListener(this);
         this.vista_CT_CRUD.jB_Leer.addActionListener(this);
         this.vista_CT_CRUD.jB_Actualizar.addActionListener(this);
@@ -45,7 +45,7 @@ public class ControladorCRUD_CT implements ActionListener, KeyListener {
         DefaultTableModel modeloT = new DefaultTableModel();
         tablaCT.setModel(modeloT);
 
-        modeloT.addColumn("ID");
+/*        modeloT.addColumn("ID");
         modeloT.addColumn("NOMBRE");
         modeloT.addColumn("CALLE");
         modeloT.addColumn("NUM");
@@ -53,6 +53,7 @@ public class ControladorCRUD_CT implements ActionListener, KeyListener {
         modeloT.addColumn("CIUDAD");
         modeloT.addColumn("PROVINCIA");
         modeloT.addColumn("TELEFONO");
+*/
 
         Object[] columna = new Object[8];
 
@@ -81,11 +82,17 @@ public class ControladorCRUD_CT implements ActionListener, KeyListener {
         vista_CT_CRUD.jText_6.setText("");
         vista_CT_CRUD.jText_7.setText("");
         vista_CT_CRUD.jText_8.setText("");
+        // Para que el cursor se ponga en este campo después de limpiar los datos
+        vista_CT_CRUD.jText_2.requestFocus();
     }
 
     public void actionPerformed(ActionEvent e) {
+
+        // CREAR: ALTA de datos nuevos
         if (e.getSource() == vista_CT_CRUD.jB_Crear) {
-            int ID = Integer.parseInt(vista_CT_CRUD.jText_1.getText());
+            
+            //int ID = Integer.parseInt(vista_CT_CRUD.jText_1.getText());
+            int ID=0;
             String Nombre = vista_CT_CRUD.jText_2.getText();
             String Calle = vista_CT_CRUD.jText_3.getText();
             int Num = Integer.parseInt(vista_CT_CRUD.jText_4.getText());
@@ -98,13 +105,19 @@ public class ControladorCRUD_CT implements ActionListener, KeyListener {
 
             if (rptaRegistro != null) {
                 JOptionPane.showMessageDialog(null, rptaRegistro);
+                limpiar();
+                vista_CT_CRUD.jB_Leer.doClick();
             } else {
-                JOptionPane.showMessageDialog(null, "Registro incorrecto");
+                JOptionPane.showMessageDialog(null, "Registro incorrecto" +e);
             }
+            
         }
+        
+        // LECTURA de los datos en la tabla
         if (e.getSource() == vista_CT_CRUD.jB_Leer) {
             LlenarTabla(vista_CT_CRUD.jTableDatos);
         }
+        // MODIFICACIÓN de los datos introducidos
         if (e.getSource() == vista_CT_CRUD.jB_Actualizar) {
             int filaEditar = vista_CT_CRUD.jTableDatos.getSelectedRow();
             int numFilas = vista_CT_CRUD.jTableDatos.getSelectedRowCount();
@@ -122,6 +135,7 @@ public class ControladorCRUD_CT implements ActionListener, KeyListener {
                 JOptionPane.showMessageDialog(null, "Debes seleccionar 1 sola fila - por lo menos una" + e);
             }
         }
+        // BORRADO de alguno de los datos
         if (e.getSource() == vista_CT_CRUD.jB_Borrar) {
             int filaInicio = vista_CT_CRUD.jTableDatos.getSelectedRow();
             int numFilas = vista_CT_CRUD.jTableDatos.getSelectedRowCount();
@@ -146,39 +160,37 @@ public class ControladorCRUD_CT implements ActionListener, KeyListener {
                 JOptionPane.showMessageDialog(null, "Selecciona por lo menos una fila a borrar.");
 
             }
-
-            if (e.getSource() == vista_CT_CRUD.jB_OK) {
-                String Nombre = vista_CT_CRUD.jText_2.getText();
-                String Calle = vista_CT_CRUD.jText_3.getText();
-                int Num = Integer.parseInt(vista_CT_CRUD.jText_4.getText());
-                String cp = vista_CT_CRUD.jText_5.getText();
-                String Ciudad = vista_CT_CRUD.jText_6.getText();
-                String Provincia = vista_CT_CRUD.jText_7.getText();
-                String Telefono = vista_CT_CRUD.jText_8.getText();
-
-                int rptaEdit = modelo_CT_CRUD.editarCT(Nombre, Calle, Num, cp, Ciudad, Provincia, Telefono);
-                if (rptaEdit > 0) {
-                    JOptionPane.showMessageDialog(null, "Edición Correcta");
-                } else {
-                    JOptionPane.showMessageDialog(null, "ERROR en la EDICIÓN");
-                }
-                // Borro los datos del formulario
-                limpiar();
-                // Vuelvo a habilitar los botones deshabilitados
-                vista_CT_CRUD.jText_1.setEditable(true);
-                vista_CT_CRUD.jB_Crear.setEnabled(true);
-                vista_CT_CRUD.jB_Borrar.setEnabled(true);
-                vista_CT_CRUD.jB_Leer.setEnabled(true);
-                vista_CT_CRUD.jB_Salir.setEnabled(true);
-                vista_CT_CRUD.jB_Volver.setEnabled(true);
-            }
-
         }
+        // BOTON de Ok
+        if (e.getSource() == vista_CT_CRUD.jB_OK) {
+            String Nombre = vista_CT_CRUD.jText_2.getText();
+            String Calle = vista_CT_CRUD.jText_3.getText();
+            int Num = Integer.parseInt(vista_CT_CRUD.jText_4.getText());
+            String cp = vista_CT_CRUD.jText_5.getText();
+            String Ciudad = vista_CT_CRUD.jText_6.getText();
+            String Provincia = vista_CT_CRUD.jText_7.getText();
+            String Telefono = vista_CT_CRUD.jText_8.getText();
 
+            int rptaEdit = modelo_CT_CRUD.editarCT(Nombre, Calle, Num, cp, Ciudad, Provincia, Telefono);
+            if (rptaEdit > 0) {
+                JOptionPane.showMessageDialog(null, "Edición Correcta");
+            } else {
+                JOptionPane.showMessageDialog(null, "ERROR en la EDICIÓN");
+            }
+            // Borro los datos del formulario
+            limpiar();
+            // Vuelvo a habilitar los botones deshabilitados
+            vista_CT_CRUD.jText_1.setEditable(true);
+            vista_CT_CRUD.jB_Crear.setEnabled(true);
+            vista_CT_CRUD.jB_Borrar.setEnabled(true);
+            vista_CT_CRUD.jB_Leer.setEnabled(true);
+            vista_CT_CRUD.jB_Salir.setEnabled(true);
+            vista_CT_CRUD.jB_Volver.setEnabled(true);
+        }
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
+@Override
+        public void keyTyped(KeyEvent e) {
         // Para controlar el texto que se pone en el campo "número" sea un número
         if (e.getSource() == vista_CT_CRUD.jText_4) {
             char c = e.getKeyChar();
@@ -190,24 +202,21 @@ public class ControladorCRUD_CT implements ActionListener, KeyListener {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        
-        
+        public void keyPressed(KeyEvent e) {
+
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+        public void keyReleased(KeyEvent e) {
 
-        if (e.getSource()== vista_CT_CRUD.jText_5){
+        if (e.getSource() == vista_CT_CRUD.jText_5) {
             String cp = vista_CT_CRUD.jText_5.getText();
             int l = cp.length();
-            if (l >5){
+            if (l > 5) {
                 JOptionPane.showMessageDialog(null, "Solo se admiten Códigos Postales de 5 dígitos.");
             }
         }
-        
-        
-        
+
         if (e.getSource() == vista_CT_CRUD.jText_Buscar) {
             String nombre = vista_CT_CRUD.jText_Buscar.getText();
 

@@ -1,15 +1,14 @@
 package Modelo;
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Conexion {
 
-    public Conexion() {
-
-    }
-
-    public Connection getConnection() {
-        Connection con = null;
+    private static Connection con = null;
+    
+    public static Connection getConexion() {
 
         try {
             String className = "oracle.jdbc.driver.OracleDriver";
@@ -18,10 +17,20 @@ public class Conexion {
             String password = "root";
 
             Class.forName(className).newInstance();
+            
             con = DriverManager.getConnection(url, user, password);
+            
         } catch (Exception e) {
 
         }
         return con;
+    }
+    
+    public static void exitConexion(){
+        try {
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

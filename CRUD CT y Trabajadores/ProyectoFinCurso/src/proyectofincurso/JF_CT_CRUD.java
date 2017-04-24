@@ -126,7 +126,7 @@ public class JF_CT_CRUD extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "NOMBRE", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8"
+                "ID", "NOMBRE", "Calle", "Núm", "C_P.", "Ciudad", "Provincia", "Teléfono"
             }
         ));
         jScrollPane2.setViewportView(jTableDatos);

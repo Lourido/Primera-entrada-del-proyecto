@@ -4,25 +4,37 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import proyectofincurso.JF_CT_CRUD;
 
 public class CT_CRUD {
 
-    Conexion conexion;
 
     public CT_CRUD() {
-        conexion = new Conexion();
     }
 
-    public String insertCT(int ID, String nombre, String calle, int numero, String cp, String ciudad, String provincia, String telefono) {
+    public String insertCT(int Id, String P_CT_nombre, String calle, int numero, String cp, String ciudad, String provincia, String telefono) {
+        
         String rptaRegistro = null;
-
+        long myId = 0;
+        
         try {
-            Connection accesoDB = conexion.getConnection();
+            Connection accesoDB = Conexion.getConexion();
+
+            // Ejecutamos la Secuencia para conocer el ID
+            String Identificador = "SELECT CT_ID.NEXTVAL FROM DUAL";
+            PreparedStatement ps = accesoDB.prepareStatement(Identificador);
+            synchronized(this){
+              ResultSet rs = ps.executeQuery();
+              if(rs.next())
+                  myId = rs.getLong(1);
+            }
+            Id = (int) myId;
+            
             // LLAMADA AL PROCEDIMIENTO ALMACENADO EN ORACLE
-            CallableStatement cs = accesoDB.prepareCall("(CALL P_INSERT_CT(?,?,?,?,?,?,?,?) ");
+            CallableStatement cs = accesoDB.prepareCall("{CALL P_INSERT_CT(?,?,?,?,?,?,?,?)} ");
             // SE RELLENAN TODOS LOS PARAMETROS
-            cs.setInt(1, ID);
-            cs.setString(2, nombre);
+            cs.setInt(1, Id);
+            cs.setString(2, P_CT_nombre);
             cs.setString(3, calle);
             cs.setInt(4, numero);
             cs.setString(5, cp);
@@ -32,10 +44,14 @@ public class CT_CRUD {
 
             int numFila = cs.executeUpdate();
             if (numFila > 0) {
-                rptaRegistro = "Registro insertado";
+                rptaRegistro = "Registro insertado";               
             }
+
+            Conexion.exitConexion();
+        
         } catch (Exception e) {
         }
+        
         return rptaRegistro;
     }
 
@@ -43,7 +59,7 @@ public class CT_CRUD {
         ArrayList listaCT = new ArrayList();
         CT ct;
         try {
-            Connection accesoDB = conexion.getConnection();
+            Connection accesoDB = Conexion.getConexion();
             PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM CENTRO_TRABAJO");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -69,8 +85,8 @@ public class CT_CRUD {
         int numFil = 0;
 
         try {
-            Connection accesoDB = conexion.getConnection();
-            CallableStatement cs = accesoDB.prepareCall("(CALL PROCEDIMIENTO EDICION(?,?,?,?,?,?,?) ");
+            Connection accesoDB = Conexion.getConexion();
+            CallableStatement cs = accesoDB.prepareCall("(CALL P_EDICION_CT(?,?,?,?,?,?,?) ");
             cs.setString(1, nombre);
             cs.setString(2, calle);
             cs.setInt(3, numero);
@@ -91,7 +107,7 @@ public class CT_CRUD {
         int numFil = 0;
 
         try {
-            Connection accesoDB = conexion.getConnection();
+            Connection accesoDB = Conexion.getConexion();
             CallableStatement cs = accesoDB.prepareCall("(CALL PROCEDIMIENTO BORRADO(?) ");
             cs.setString(1,nombre);
 
@@ -107,7 +123,7 @@ public class CT_CRUD {
         ArrayList<CT> listaCT = new ArrayList();
         CT ct;
         try {
-            Connection accesoDB = conexion.getConnection();
+            Connection accesoDB = Conexion.getConexion();
             CallableStatement cs = accesoDB.prepareCall("(CALL PROCEDIMIENTO BUSQUEDA(?) ");
             cs.setString(1, nombre);
             ResultSet rs = cs.executeQuery();
