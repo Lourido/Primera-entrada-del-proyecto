@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import proyectofincurso.JF_CT_CRUD;
+//import proyectofincurso.JF_CT_CRUD;
 
 public class CT_CRUD {
 
@@ -12,6 +12,8 @@ public class CT_CRUD {
     public CT_CRUD() {
     }
 
+    @SuppressWarnings("UseSpecificCatch")
+    
     public String insertCT(int Id, String P_CT_nombre, String calle, int numero, String cp, String ciudad, String provincia, String telefono) {
         
         String rptaRegistro = null;
@@ -74,6 +76,7 @@ public class CT_CRUD {
                 ct.setTelefono(rs.getString(8));
                 listaCT.add(ct);
             }
+            //Conexion.exitConexion();
 
         } catch (Exception e) {
 
@@ -81,26 +84,37 @@ public class CT_CRUD {
         return listaCT;
     }
 
-    public int editarCT(String nombre, String calle, int numero, String cp, String ciudad, String provincia, String telefono) {
+    public String editarCT(int Id, String nombre, String calle, int numero, String cp, String ciudad, String provincia, String telefono) {
+        
+        String rptaEdit =null;
         int numFil = 0;
 
         try {
             Connection accesoDB = Conexion.getConexion();
-            CallableStatement cs = accesoDB.prepareCall("(CALL P_EDICION_CT(?,?,?,?,?,?,?) ");
-            cs.setString(1, nombre);
-            cs.setString(2, calle);
-            cs.setInt(3, numero);
-            cs.setString(4, cp);
-            cs.setString(5, ciudad);
-            cs.setString(6, provincia);
-            cs.setString(7, telefono);
+            
+            // LLAMADA AL PROCEDIMIENTO ALMACENADO EN ORACLE
+            CallableStatement cs = accesoDB.prepareCall("{CALL P_INSERT_CT(?,?,?,?,?,?,?,?)} ");
+            // SE RELLENAN TODOS LOS PARAMETROS
+            cs.setInt(1, Id);
+            cs.setString(2, nombre);
+            cs.setString(3, calle);
+            cs.setInt(4, numero);
+            cs.setString(5, cp);
+            cs.setString(6, ciudad);
+            cs.setString(7, provincia);
+            cs.setString(8, telefono);
 
-            numFil = cs.executeUpdate();
+            int numFila = cs.executeUpdate();
+            if (numFila > 0) {
+                rptaEdit = "Registro insertado";               
+            }
 
-        } catch (SQLException ex) {
-            Logger.getLogger(CT_CRUD.class.getName()).log(Level.SEVERE, null, ex);
+            Conexion.exitConexion();
+        
+        } catch (Exception e) {
         }
-        return numFil;
+        
+        return rptaEdit;
     }
 
     public int eliminarCT(String nombre) {
@@ -112,6 +126,7 @@ public class CT_CRUD {
             cs.setString(1,nombre);
 
             numFil = cs.executeUpdate();
+            Conexion.exitConexion();
 
         } catch (SQLException ex) {
             Logger.getLogger(CT_CRUD.class.getName()).log(Level.SEVERE, null, ex);
@@ -138,6 +153,7 @@ public class CT_CRUD {
                 ct.setProvincia(rs.getString(7));
                 ct.setTelefono(rs.getString(8));
                 listaCT.add(ct);
+                Conexion.exitConexion();
             }
 
         } catch (Exception e) {

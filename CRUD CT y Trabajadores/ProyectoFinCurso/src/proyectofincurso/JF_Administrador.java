@@ -159,6 +159,7 @@ public class JF_Administrador extends javax.swing.JFrame {
         vista_CT.setVisible(true);
         vista_CT.setLocationRelativeTo(null);
         //vista_CT.jB_Leer.doClick();
+        vista_CT.jText_2.requestFocus();
 
     }//GEN-LAST:event_jB_JF_CT_CRUDActionPerformed
 

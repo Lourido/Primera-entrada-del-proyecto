@@ -119,6 +119,8 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        
+            // BOTON AÑADIR-CREAR
         if (e.getSource() == vista_Trabajador_CRUD.jB_Crear) {
             int ID = Integer.parseInt(vista_Trabajador_CRUD.jText_1.getText());
             String dni = vista_Trabajador_CRUD.jText_2.getText();

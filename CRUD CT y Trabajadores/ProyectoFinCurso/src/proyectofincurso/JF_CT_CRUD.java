@@ -50,7 +50,6 @@ public class JF_CT_CRUD extends javax.swing.JFrame {
         jTableDatos = new javax.swing.JTable();
         jText_Buscar = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jB_Leer = new javax.swing.JButton();
         jB_Crear = new javax.swing.JButton();
@@ -111,6 +110,9 @@ public class JF_CT_CRUD extends javax.swing.JFrame {
 
         jText_8.setToolTipText("");
 
+        jText_1.setEditable(false);
+        jText_1.setDragEnabled(false);
+        jText_1.setEnabled(false);
         jText_1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jText_1ActionPerformed(evt);
@@ -229,58 +231,62 @@ public class JF_CT_CRUD extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 84, 720, -1));
 
-        jLabel8.setText("FALTA ID Centro de Trabajo creado por secuencia");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 55, 336, -1));
-
         jLabel9.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel9.setText("CRUD de CENTROS DE TRABAJO");
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(276, 24, -1, -1));
 
+        jB_Leer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Leer.png"))); // NOI18N
         jB_Leer.setText("R - Leer");
         jB_Leer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_LeerActionPerformed(evt);
             }
         });
-        getContentPane().add(jB_Leer, new org.netbeans.lib.awtextra.AbsoluteConstraints(732, 60, -1, -1));
+        getContentPane().add(jB_Leer, new org.netbeans.lib.awtextra.AbsoluteConstraints(756, 60, -1, -1));
 
+        jB_Crear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Create.png"))); // NOI18N
         jB_Crear.setText("C-Crear");
         jB_Crear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_CrearActionPerformed(evt);
             }
         });
-        getContentPane().add(jB_Crear, new org.netbeans.lib.awtextra.AbsoluteConstraints(732, 24, -1, -1));
+        getContentPane().add(jB_Crear, new org.netbeans.lib.awtextra.AbsoluteConstraints(756, 12, -1, -1));
 
+        jB_Actualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Actualizar.png"))); // NOI18N
         jB_Actualizar.setText("U - Actualizar");
-        getContentPane().add(jB_Actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(732, 96, -1, -1));
+        getContentPane().add(jB_Actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 108, -1, -1));
 
+        jB_Borrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Borrar.png"))); // NOI18N
         jB_Borrar.setText("D - Borrar");
-        getContentPane().add(jB_Borrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(732, 132, -1, -1));
+        getContentPane().add(jB_Borrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(744, 156, -1, -1));
 
+        jB_Salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Exit.png"))); // NOI18N
         jB_Salir.setText("Salir");
         jB_Salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_SalirActionPerformed(evt);
             }
         });
-        getContentPane().add(jB_Salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(737, 429, -1, -1));
+        getContentPane().add(jB_Salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(768, 420, -1, -1));
 
+        jB_Volver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Back.png"))); // NOI18N
         jB_Volver.setText("Volver");
         jB_Volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_VolverActionPerformed(evt);
             }
         });
-        getContentPane().add(jB_Volver, new org.netbeans.lib.awtextra.AbsoluteConstraints(731, 388, -1, -1));
+        getContentPane().add(jB_Volver, new org.netbeans.lib.awtextra.AbsoluteConstraints(756, 360, -1, -1));
 
+        jB_OK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Ok.png"))); // NOI18N
         jB_OK.setText("Ok");
         jB_OK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_OKActionPerformed(evt);
             }
         });
-        getContentPane().add(jB_OK, new org.netbeans.lib.awtextra.AbsoluteConstraints(756, 168, -1, -1));
+        getContentPane().add(jB_OK, new org.netbeans.lib.awtextra.AbsoluteConstraints(768, 216, 72, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -332,7 +338,10 @@ public class JF_CT_CRUD extends javax.swing.JFrame {
     }//GEN-LAST:event_jText_BuscarActionPerformed
 
     private void jB_OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_OKActionPerformed
-
+        JF_CT_CRUD vista_CT = new JF_CT_CRUD();
+        CT_CRUD modelo_CT = new CT_CRUD();
+        ControladorCRUD_CT controlador_CT = new ControladorCRUD_CT(vista_CT, modelo_CT);
+        vista_CT.jB_OK.doClick();
     }//GEN-LAST:event_jB_OKActionPerformed
 
     public static void main(String args[]) {
@@ -360,7 +369,6 @@ public class JF_CT_CRUD extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
