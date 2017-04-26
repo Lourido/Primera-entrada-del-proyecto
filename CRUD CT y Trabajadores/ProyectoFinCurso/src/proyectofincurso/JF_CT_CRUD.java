@@ -8,16 +8,6 @@ import java.sql.*;
 import static proyectofincurso.InicioSesion.con;
 
 public class JF_CT_CRUD extends javax.swing.JFrame {
-
-    public void clearAll(){
-        jText_2.setText("");
-        jText_3.setText("");
-        jText_4.setText("");
-        jText_5.setText("");
-        jText_6.setText("");
-        jText_7.setText("");
-        jText_8.setText("");
-    }
     
     public JF_CT_CRUD() {
         initComponents();
@@ -255,6 +245,11 @@ public class JF_CT_CRUD extends javax.swing.JFrame {
 
         jB_Actualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Actualizar.png"))); // NOI18N
         jB_Actualizar.setText("U - Actualizar");
+        jB_Actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_ActualizarActionPerformed(evt);
+            }
+        });
         getContentPane().add(jB_Actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 108, -1, -1));
 
         jB_Borrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Borrar.png"))); // NOI18N
@@ -341,8 +336,12 @@ public class JF_CT_CRUD extends javax.swing.JFrame {
         JF_CT_CRUD vista_CT = new JF_CT_CRUD();
         CT_CRUD modelo_CT = new CT_CRUD();
         ControladorCRUD_CT controlador_CT = new ControladorCRUD_CT(vista_CT, modelo_CT);
-        vista_CT.jB_OK.doClick();
+
     }//GEN-LAST:event_jB_OKActionPerformed
+
+    private void jB_ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ActualizarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jB_ActualizarActionPerformed
 
     public static void main(String args[]) {
 

@@ -143,7 +143,8 @@ public class JF_Administrador extends javax.swing.JFrame {
         ControladorCRUD_Trabajador controlador_Trabajador = new ControladorCRUD_Trabajador(vista_Trabajador, modelo_Trabajador);
         vista_Trabajador.setVisible(true);
         vista_Trabajador.setLocationRelativeTo(null);
-        vista_Trabajador.jB_Leer.doClick();
+        //vista_Trabajador.jB_Leer.doClick();
+        vista_Trabajador.jText_2.requestFocus();
 
     }//GEN-LAST:event_jB_Trabajador_CRUDActionPerformed
 

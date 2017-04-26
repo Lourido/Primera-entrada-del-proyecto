@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//import proyectofincurso.JF_CT_CRUD;
+import proyectofincurso.JF_CT_CRUD;
 
 public class CT_CRUD {
 
@@ -33,7 +33,7 @@ public class CT_CRUD {
             Id = (int) myId;
             
             // LLAMADA AL PROCEDIMIENTO ALMACENADO EN ORACLE
-            CallableStatement cs = accesoDB.prepareCall("{CALL P_INSERT_CT(?,?,?,?,?,?,?,?)} ");
+            CallableStatement cs = accesoDB.prepareCall("{CALL P_IN_EDIT_CT(?,?,?,?,?,?,?,?)} ");
             // SE RELLENAN TODOS LOS PARAMETROS
             cs.setInt(1, Id);
             cs.setString(2, P_CT_nombre);
@@ -46,7 +46,7 @@ public class CT_CRUD {
 
             int numFila = cs.executeUpdate();
             if (numFila > 0) {
-                rptaRegistro = "Registro insertado";               
+                rptaRegistro = "Registro ACTUALIZADO";               
             }
 
             Conexion.exitConexion();
@@ -76,7 +76,7 @@ public class CT_CRUD {
                 ct.setTelefono(rs.getString(8));
                 listaCT.add(ct);
             }
-            //Conexion.exitConexion();
+            Conexion.exitConexion();
 
         } catch (Exception e) {
 
@@ -93,7 +93,7 @@ public class CT_CRUD {
             Connection accesoDB = Conexion.getConexion();
             
             // LLAMADA AL PROCEDIMIENTO ALMACENADO EN ORACLE
-            CallableStatement cs = accesoDB.prepareCall("{CALL P_INSERT_CT(?,?,?,?,?,?,?,?)} ");
+            CallableStatement cs = accesoDB.prepareCall("{CALL P_IN_EDIT_CT(?,?,?,?,?,?,?,?)} ");
             // SE RELLENAN TODOS LOS PARAMETROS
             cs.setInt(1, Id);
             cs.setString(2, nombre);
@@ -106,7 +106,7 @@ public class CT_CRUD {
 
             int numFila = cs.executeUpdate();
             if (numFila > 0) {
-                rptaEdit = "Registro insertado";               
+                rptaEdit = "Registro ACTUALIZAZO";               
             }
 
             Conexion.exitConexion();
@@ -117,13 +117,13 @@ public class CT_CRUD {
         return rptaEdit;
     }
 
-    public int eliminarCT(String nombre) {
+    public int eliminarCT(int Id) {
         int numFil = 0;
 
         try {
             Connection accesoDB = Conexion.getConexion();
-            CallableStatement cs = accesoDB.prepareCall("(CALL PROCEDIMIENTO BORRADO(?) ");
-            cs.setString(1,nombre);
+            CallableStatement cs = accesoDB.prepareCall("{CALL P_DELETE_CT(?)}");
+            cs.setInt(1,Id);
 
             numFil = cs.executeUpdate();
             Conexion.exitConexion();
@@ -139,7 +139,7 @@ public class CT_CRUD {
         CT ct;
         try {
             Connection accesoDB = Conexion.getConexion();
-            CallableStatement cs = accesoDB.prepareCall("(CALL PROCEDIMIENTO BUSQUEDA(?) ");
+            CallableStatement cs = accesoDB.prepareCall("{CALL PROCEDIMIENTO BUSQUEDA(?) }");
             cs.setString(1, nombre);
             ResultSet rs = cs.executeQuery();
             while (rs.next()) {
