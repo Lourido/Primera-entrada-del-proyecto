@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import proyectofincurso.JF_CT_CRUD;
 
 public class CT_CRUD {
 
@@ -134,14 +133,14 @@ public class CT_CRUD {
         return numFil;
     }
 
-    public ArrayList<CT> buscarCTxNombre(String nombre) {
+    public ArrayList<CT> buscarCTxNombre(String nombreBuscado) {
         ArrayList<CT> listaCT = new ArrayList();
         CT ct;
         try {
             Connection accesoDB = Conexion.getConexion();
-            CallableStatement cs = accesoDB.prepareCall("{CALL PROCEDIMIENTO BUSQUEDA(?) }");
-            cs.setString(1, nombre);
-            ResultSet rs = cs.executeQuery();
+            PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM CENTRO_TRABAJO WHERE NOMBRE LIKE (?)");
+            ps.setString(1, nombreBuscado);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 ct = new CT();
                 ct.setID(rs.getInt(1));
@@ -153,8 +152,8 @@ public class CT_CRUD {
                 ct.setProvincia(rs.getString(7));
                 ct.setTelefono(rs.getString(8));
                 listaCT.add(ct);
-                Conexion.exitConexion();
             }
+            Conexion.exitConexion();
 
         } catch (Exception e) {
 

@@ -18,7 +18,7 @@ public class Trabajador {
     private String telef_personal;
     private String movil_empresa;
     private double salario;
-    private Date fecha_nac;
+    private java.sql.Date fecha_nac;
     private String categoria;
     private int ct;
 
@@ -146,13 +146,14 @@ public class Trabajador {
         this.salario = salario;
     }
 
-    public Date getFecha_nac() {
+    public java.sql.Date getFecha_nac() {
         return fecha_nac;
     }
 
-    public void setFecha_nac(Date fecha_nac) {
+    public void setFecha_nac(java.sql.Date fecha_nac) {
         this.fecha_nac = fecha_nac;
     }
+
 
     public String getCategoria() {
         return categoria;

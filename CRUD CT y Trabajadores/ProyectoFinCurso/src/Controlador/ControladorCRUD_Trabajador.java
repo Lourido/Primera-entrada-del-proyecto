@@ -10,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -19,15 +17,13 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import oracle.net.aso.e;
-import static oracle.sql.NUMBER.e;
-import static sun.applet.AppletViewer.parse;
 
 public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
 
     JF_Trabajador_CRUD vista_Trabajador_CRUD = new JF_Trabajador_CRUD();
     Trabajador_CRUD modelo_Trabajador_CRUD = new Trabajador_CRUD();
 
+    @SuppressWarnings("LeakingThisInConstructor")
     public ControladorCRUD_Trabajador(JF_Trabajador_CRUD vista_Trabajador_CRUD, Trabajador_CRUD modelo_Trabajador_CRUD) {
 
         this.modelo_Trabajador_CRUD = modelo_Trabajador_CRUD;
@@ -50,14 +46,9 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
         this.vista_Trabajador_CRUD.jText_11.addKeyListener(this);
         this.vista_Trabajador_CRUD.jText_12.addKeyListener(this);
         this.vista_Trabajador_CRUD.jText_13.addKeyListener(this);
-        this.vista_Trabajador_CRUD.jText_Buscar.addKeyListener(this);
-
     }
 
-    public void Inicializar_Trabajador_CRUD() {
-
-    }
-
+    @SuppressWarnings("unchecked")
     public void LlenarTabla(JTable tablaTrabajador) {
         DefaultTableModel modeloTr = new DefaultTableModel();
         tablaTrabajador.setModel(modeloTr);
@@ -84,7 +75,7 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
         // para ahorrar tiempo de búsqueda y conexión
         List<Trabajador> ListaCopia = new ArrayList<>();
         ListaCopia = (List<Trabajador>) modelo_Trabajador_CRUD.listTrabajador().clone();
-        
+
         int numRegistros = ListaCopia.size();
 
         for (int i = 0; i < numRegistros; i++) {
@@ -106,6 +97,7 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
 
             modeloTr.addRow(columna);
         }
+        JOptionPane.showMessageDialog(null, "Listado terminado");
     }
 
     public void limpiar() {
@@ -124,14 +116,15 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
         vista_Trabajador_CRUD.jText_12.setText(null);
         vista_Trabajador_CRUD.jText_13.setText(null);
         vista_Trabajador_CRUD.jText_15.setText(null);
-        
+
         // Para que el cursor se ponga en este campo después de limpiar los datos
         vista_Trabajador_CRUD.jText_2.requestFocus();
     }
 
+    @SuppressWarnings("unchecked")
     public void actionPerformed(ActionEvent e) {
-        
-            // BOTON AÑADIR-CREAR
+
+        // BOTON AÑADIR-CREAR
         if (e.getSource() == vista_Trabajador_CRUD.jB_Crear) {
             // Asigno el valor 0 al ID para que no de error antes de generarlo
             // con la SECUENCIA de la base de datos
@@ -146,22 +139,34 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
             String Mano = vista_Trabajador_CRUD.jText_9.getText();
             String T_P = vista_Trabajador_CRUD.jText_10.getText();
             String T_E = vista_Trabajador_CRUD.jText_11.getText();
-            int Salario = Integer.parseInt(vista_Trabajador_CRUD.jText_12.getText());
+            Double Salario = Double.parseDouble(vista_Trabajador_CRUD.jText_12.getText());
             // CONVERTIR EL STRING EN DATE     
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             String dateInString = vista_Trabajador_CRUD.jText_13.getText();
-            DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate FeNac = LocalDate.parse(dateInString, formatoFecha);
-            
-            String Categoria = vista_Trabajador_CRUD.jComboBox14.getToolTipText();
-            int CT = Integer.parseInt(vista_Trabajador_CRUD.jText_15.getText());
+            java.sql.Date FeNac = null;
+            try {
+                Date parsed = formatter.parse(dateInString);
+                FeNac = new java.sql.Date(parsed.getTime());
+            } catch (ParseException ex) {
+                Logger.getLogger(ControladorCRUD_Trabajador.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-            String rptaRegistro = modelo_Trabajador_CRUD.insertTrabajador(ID, dni, Nombre, Apellido1, Apellido2, Calle, Portal, Piso, Mano, T_P, T_E, Salario, FeNac, Categoria, CT);
+            String Categoria = vista_Trabajador_CRUD.jComboBox14.getSelectedItem().toString();
+            int CT = Integer.parseInt(vista_Trabajador_CRUD.jText_15.getText());
+            String rptaRegistro = null;
+            try {
+                rptaRegistro = modelo_Trabajador_CRUD.insertTrabajador(ID, dni, Nombre, Apellido1, Apellido2, Calle, Portal, Piso, Mano, T_P, T_E, Salario, FeNac, Categoria, CT);
+            } catch (ParseException ex) {
+                Logger.getLogger(ControladorCRUD_Trabajador.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             if (rptaRegistro != null) {
                 JOptionPane.showMessageDialog(null, rptaRegistro);
             } else {
                 JOptionPane.showMessageDialog(null, "Registro incorrecto");
             }
+            limpiar();
+            vista_Trabajador_CRUD.jB_Leer.doClick();
         }
         // BOTÓN LEER
         if (e.getSource() == vista_Trabajador_CRUD.jB_Leer) {
@@ -171,9 +176,9 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
         if (e.getSource() == vista_Trabajador_CRUD.jB_Actualizar) {
             int filaEditar = vista_Trabajador_CRUD.jTableDatos.getSelectedRow();
             int numFilas = vista_Trabajador_CRUD.jTableDatos.getSelectedRowCount();
-            if (filaEditar > 0 && numFilas == 1) {
-                
-            // Subo los valores de la fila a los campos de edición
+            if (filaEditar >= 0 && numFilas == 1) {
+
+                // Subo los valores de la fila a los campos de edición
                 vista_Trabajador_CRUD.jText_1.setText(String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(filaEditar, 0)));
                 vista_Trabajador_CRUD.jText_2.setText(String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(filaEditar, 1)));
                 vista_Trabajador_CRUD.jText_3.setText(String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(filaEditar, 2)));
@@ -209,7 +214,7 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
             String nombre = "";
             String num = "";
             int id = 0;
-            if (filaInicio > 0) {
+            if (filaInicio >= 0) {
                 for (int i = 0; i < numFilas; i++) {
                     nombre = String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(i + filaInicio, 1));
                     num = String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(filaInicio, 0));
@@ -232,82 +237,127 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
         }
         // BOTÓN de OK
         if (e.getSource() == vista_Trabajador_CRUD.jB_OK) {
-            int ID = Integer.parseInt(vista_Trabajador_CRUD.jText_1.getText());
-            String dni = vista_Trabajador_CRUD.jText_2.getText();
-            String Nombre = vista_Trabajador_CRUD.jText_3.getText();
-            String Apellido1 = vista_Trabajador_CRUD.jText_4.getText();
-            String Apellido2 = vista_Trabajador_CRUD.jText_5.getText();
-            String Calle = vista_Trabajador_CRUD.jText_6.getText();
-            String Portal = vista_Trabajador_CRUD.jText_7.getText();
-            String Piso = vista_Trabajador_CRUD.jText_8.getText();
-            String Mano = vista_Trabajador_CRUD.jText_9.getText();
-            String T_P = vista_Trabajador_CRUD.jText_10.getText();
-            String T_E = vista_Trabajador_CRUD.jText_11.getText();
-            int Salario = Integer.parseInt(vista_Trabajador_CRUD.jText_12.getText());
-            // CONVERTIR EL STRING EN DATE
-            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            String dateInString = vista_Trabajador_CRUD.jText_13.getText();
-            Date FeNac = null;
-            try {
-                FeNac = (Date)formatter.parse(dateInString);
-            } catch (ParseException ex) {
-                Logger.getLogger(ControladorCRUD_Trabajador.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            FeNac = java.sql.Date.valueOf(dateInString);
-            
-            
-            String Categoria = vista_Trabajador_CRUD.jComboBox14.getToolTipText();
-            int ct = Integer.parseInt(vista_Trabajador_CRUD.jText_15.getText());
 
-            int rptaEdit = modelo_Trabajador_CRUD.editarTrabajador(ID, dni,Nombre
-            , Apellido1, Apellido2, Calle, Portal, Piso, Mano, T_P, T_E
-            ,  Salario,  FeNac,  Categoria, ct);
-            if (rptaEdit > 0) {
-                JOptionPane.showMessageDialog(null, "Edición Correcta");
-            } else {
-                JOptionPane.showMessageDialog(null, "ERROR en la EDICIÓN");
+            String nombreBuscado = vista_Trabajador_CRUD.jText_Buscar.getText();
+            // Cuando SI QUE hay texto en el campo BUSCAR
+            if (!nombreBuscado.equals("")) {
+                nombreBuscado = "%" + nombreBuscado + "%";
+                DefaultTableModel modeloTr = new DefaultTableModel();
+                vista_Trabajador_CRUD.jTableDatos.setModel(modeloTr);
+
+                modeloTr.addColumn("ID");
+                modeloTr.addColumn("DNI");
+                modeloTr.addColumn("NOMBRE");
+                modeloTr.addColumn("APELL.1");
+                modeloTr.addColumn("APELL.2");
+                modeloTr.addColumn("CALLE");
+                modeloTr.addColumn("PORTAL");
+                modeloTr.addColumn("PISO");
+                modeloTr.addColumn("MANO");
+                modeloTr.addColumn("TF.PER.");
+                modeloTr.addColumn("MV.EMP.");
+                modeloTr.addColumn("SALARIO");
+                modeloTr.addColumn("FE.NAC");
+                modeloTr.addColumn("CATEGORIA");
+                modeloTr.addColumn("CT");
+
+                Object[] columna = new Object[15];
+
+                // CREO UNA copia del ArrayList de la Base de datos
+                // para ahorrar tiempo de búsqueda y conexión
+                List<Trabajador> ListaCopia = new ArrayList<>();
+                ListaCopia = (List<Trabajador>) modelo_Trabajador_CRUD.buscarTrabajadorxNombre(nombreBuscado).clone();
+
+                int numRegistros = ListaCopia.size();
+
+                for (int i = 0; i < numRegistros; i++) {
+                    columna[0] = ListaCopia.get(i).getID_trabajador();
+                    columna[1] = ListaCopia.get(i).getDni();
+                    columna[2] = ListaCopia.get(i).getNombre();
+                    columna[3] = ListaCopia.get(i).getApellido1();
+                    columna[4] = ListaCopia.get(i).getApellido2();
+                    columna[5] = ListaCopia.get(i).getCalle();
+                    columna[6] = ListaCopia.get(i).getPortal();
+                    columna[7] = ListaCopia.get(i).getPiso();
+                    columna[8] = ListaCopia.get(i).getMano();
+                    columna[9] = ListaCopia.get(i).getTelef_personal();
+                    columna[10] = ListaCopia.get(i).getMovil_empresa();
+                    columna[11] = ListaCopia.get(i).getSalario();
+                    columna[12] = ListaCopia.get(i).getFecha_nac();
+                    columna[13] = ListaCopia.get(i).getCategoria();
+                    columna[14] = ListaCopia.get(i).getCt();
+
+                    modeloTr.addRow(columna);
+                }
+                JOptionPane.showMessageDialog(null, "Listado terminado");
+                vista_Trabajador_CRUD.jText_Buscar.setText("");
+            } else { // NO HAY QUE BUSCAR NADA, SOLO ACTUALIZAR LOS VALORES
+                int ID = Integer.parseInt(vista_Trabajador_CRUD.jText_1.getText());
+                String dni = vista_Trabajador_CRUD.jText_2.getText();
+                String Nombre = vista_Trabajador_CRUD.jText_3.getText();
+                String Apellido1 = vista_Trabajador_CRUD.jText_4.getText();
+                String Apellido2 = vista_Trabajador_CRUD.jText_5.getText();
+                String Calle = vista_Trabajador_CRUD.jText_6.getText();
+                String Portal = vista_Trabajador_CRUD.jText_7.getText();
+                String Piso = vista_Trabajador_CRUD.jText_8.getText();
+                String Mano = vista_Trabajador_CRUD.jText_9.getText();
+                String T_P = vista_Trabajador_CRUD.jText_10.getText();
+                String T_E = vista_Trabajador_CRUD.jText_11.getText();
+                Double Salario = Double.parseDouble(vista_Trabajador_CRUD.jText_12.getText());
+                // CONVERTIR EL STRING EN DATE
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                String dateInString = vista_Trabajador_CRUD.jText_13.getText();
+                java.sql.Date FeNac = null;
+                try {
+                    Date parsed = formatter.parse(dateInString);
+                    FeNac = new java.sql.Date(parsed.getTime());
+
+                } catch (ParseException ex) {
+                    Logger.getLogger(ControladorCRUD_Trabajador.class
+                            .getName()).log(Level.SEVERE, null, ex);
+                }
+
+                String Categoria = vista_Trabajador_CRUD.jComboBox14.getSelectedItem().toString();
+                int ct = Integer.parseInt(vista_Trabajador_CRUD.jText_15.getText());
+
+                int rptaEdit = modelo_Trabajador_CRUD.editarTrabajador(ID, dni, Nombre,
+                        Apellido1, Apellido2, Calle, Portal, Piso, Mano, T_P, T_E,
+                        Salario, FeNac, Categoria, ct);
+                if (rptaEdit > 0) {
+                    JOptionPane.showMessageDialog(null, "Edición Correcta");
+                } else {
+                    JOptionPane.showMessageDialog(null, "ERROR en la EDICIÓN");
+                }
+                // Borro los datos del formulario
+                limpiar();
+                // Vuelvo a habilitar los botones deshabilitados
+                vista_Trabajador_CRUD.jText_1.setEditable(true);
+                vista_Trabajador_CRUD.jB_Crear.setEnabled(true);
+                vista_Trabajador_CRUD.jB_Borrar.setEnabled(true);
+                vista_Trabajador_CRUD.jB_Leer.setEnabled(true);
+                vista_Trabajador_CRUD.jB_Salir.setEnabled(true);
+                vista_Trabajador_CRUD.jB_Volver.setEnabled(true);
+                // Refresco el listado para que se vea la modificación
+                vista_Trabajador_CRUD.jB_Leer.doClick();
             }
-            // Borro los datos del formulario
-            limpiar();
-            // Vuelvo a habilitar los botones deshabilitados
-            vista_Trabajador_CRUD.jText_1.setEditable(true);
-            vista_Trabajador_CRUD.jB_Crear.setEnabled(true);
-            vista_Trabajador_CRUD.jB_Borrar.setEnabled(true);
-            vista_Trabajador_CRUD.jB_Leer.setEnabled(true);
-            vista_Trabajador_CRUD.jB_Salir.setEnabled(true);
-            vista_Trabajador_CRUD.jB_Volver.setEnabled(true);
+
         }
-
     }
-       // OPCIÓN DE BUSCAR POR NOMBRE
-        
-        
-        
+    // OPCIÓN DE BUSCAR POR NOMBRE
 
     @Override
     public void keyTyped(KeyEvent e) {
-    
-        // Para controlar el texto que se pone en el campo "número" sea un número
-        if (e.getSource() == vista_Trabajador_CRUD.jText_15) {
-            char c = e.getKeyChar();
-            if (c < '0' || c > '9') {
-                e.consume();
-            }
-        }
 
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-        
-        
+
     }
 
-   
+}

@@ -1,18 +1,19 @@
 package Modelo;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import proyectofincurso.JF_Trabajador_CRUD;
 
 public class Trabajador_CRUD {
 
-    public String insertTrabajador(int ID, String dni, String nombre, String apellido1, String apellido2, String calle, String portal, String piso, String mano, String telefono_p, String movil_em, double salario, Date fecha_nac, String categoria, int ct) {
+    public String insertTrabajador(int ID, String dni, String nombre, String apellido1, String apellido2, String calle, String portal, String piso, String mano, String telefono_p, String movil_em, double salario, java.sql.Date fecha_nac, String categoria, int ct) throws ParseException {
 
         String rptaRegistro = null;
         long myId = 0;
-        int Id = 0;
+        ID = 0;
 
         try {
             Connection accesoDB = Conexion.getConexion();
@@ -26,10 +27,10 @@ public class Trabajador_CRUD {
                     myId = rs.getLong(1);
                 }
             }
-            Id = (int) myId;
+            ID = (int) myId;
 
             // LLAMADA AL PROCEDIMIENTO ALMACENADO EN ORACLE
-            CallableStatement cs = accesoDB.prepareCall("{CALL P_IN_EDIT_TRABAJADOR(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }");
+            CallableStatement cs = accesoDB.prepareCall("{CALL P_IN_EDIT_TRABAJADOR(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }");
             // SE RELLENAN TODOS LOS PARAMETROS
             cs.setInt(1, ID);
             cs.setString(2, dni);
@@ -53,6 +54,7 @@ public class Trabajador_CRUD {
             }
             Conexion.exitConexion();
         } catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
         }
         return rptaRegistro;
     }
@@ -60,6 +62,7 @@ public class Trabajador_CRUD {
     public ArrayList<Trabajador> listTrabajador() {
         ArrayList listaTrabajador = new ArrayList();
         Trabajador trabajador;
+
         try {
             Connection accesoDB = Conexion.getConexion();
             PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM TRABAJADOR");
@@ -83,9 +86,8 @@ public class Trabajador_CRUD {
                 trabajador.setCt(rs.getInt(15));
 
                 listaTrabajador.add(trabajador);
-
-                Conexion.exitConexion();
             }
+            Conexion.exitConexion();
 
         } catch (Exception e) {
 
@@ -101,7 +103,7 @@ public class Trabajador_CRUD {
 
         try {
             Connection accesoDB = Conexion.getConexion();
-            CallableStatement cs = accesoDB.prepareCall("{CALL P_IN_EDIT_TRABAJADOR(?,?,?,?,?,?,?) }");
+            CallableStatement cs = accesoDB.prepareCall("{CALL P_IN_EDIT_TRABAJADOR(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }");
             cs.setInt(1, ID);
             cs.setString(2, dni);
             cs.setString(3, nombre);
@@ -148,14 +150,14 @@ public class Trabajador_CRUD {
         return numFil;
     }
 
-    public ArrayList<Trabajador> buscarCTxNombre(String nombre) {
+    public ArrayList<Trabajador> buscarTrabajadorxNombre(String nombreBuscado) {
         ArrayList<Trabajador> listaTrabajador = new ArrayList();
         Trabajador trabajador;
         try {
             Connection accesoDB = Conexion.getConexion();
-            CallableStatement cs = accesoDB.prepareCall("{CALL PROCEDIMIENTO BUSQUEDA(?) }");
-            cs.setString(1, nombre);
-            ResultSet rs = cs.executeQuery();
+            PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM TRABAJADOR WHERE NOMBRE LIKE (?)");
+            ps.setString(1, nombreBuscado);          
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 trabajador = new Trabajador();
                 trabajador.setID_trabajador(rs.getInt(1));
@@ -175,43 +177,9 @@ public class Trabajador_CRUD {
                 trabajador.setCt(rs.getInt(15));
 
                 listaTrabajador.add(trabajador);
-                Conexion.exitConexion();
-            }
-
-        } catch (Exception e) {
-        }
-        return listaTrabajador;
-    }
-
-    public ArrayList<Trabajador> buscarTrabajadorxNombre(String nombre) {
-        ArrayList<Trabajador> listaTrabajador = new ArrayList();
-        Trabajador trabajador;
-        try {
-            Connection accesoDB = Conexion.getConexion();
-            CallableStatement cs = accesoDB.prepareCall("{CALL PROCEDIMIENTO BUSQUEDA(?) }");
-            cs.setString(1, nombre);
-            ResultSet rs = cs.executeQuery();
-            while (rs.next()) {
-                trabajador = new Trabajador();
-                trabajador.setID_trabajador(rs.getInt(1));
-                trabajador.setDni(rs.getString(2));
-                trabajador.setNombre(rs.getString(3));
-                trabajador.setApellido1(rs.getString(4));
-                trabajador.setApellido2(rs.getString(5));
-                trabajador.setCalle(rs.getString(6));
-                trabajador.setPortal(rs.getString(7));
-                trabajador.setPiso(rs.getString(8));
-                trabajador.setMano(rs.getString(9));
-                trabajador.setTelef_personal(rs.getString(10));
-                trabajador.setMovil_empresa(rs.getString(11));
-                trabajador.setSalario(rs.getDouble(12));
-                trabajador.setFecha_nac(rs.getDate(13));
-                trabajador.setCategoria(rs.getString(14));
-                trabajador.setCt(rs.getInt(15));
                 
-                listaTrabajador.add(trabajador);
-                Conexion.exitConexion();
             }
+            Conexion.exitConexion();
 
         } catch (Exception e) {
 
@@ -220,4 +188,3 @@ public class Trabajador_CRUD {
     }
 
 }
-
