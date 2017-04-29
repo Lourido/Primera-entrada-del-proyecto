@@ -1,5 +1,6 @@
 package Modelo;
 
+import Controlador.ControladorCRUD_Trabajador;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,18 +18,6 @@ public class Trabajador_CRUD {
 
         try {
             Connection accesoDB = Conexion.getConexion();
-
-            // Ejecutamos la Secuencia para conocer el ID
-            String Identificador = "SELECT TRABAJADOR_ID.NEXTVAL FROM DUAL";
-            PreparedStatement ps = accesoDB.prepareStatement(Identificador);
-            synchronized (this) {
-                ResultSet rs = ps.executeQuery();
-                if (rs.next()) {
-                    myId = rs.getLong(1);
-                }
-            }
-            ID = (int) myId;
-
             // LLAMADA AL PROCEDIMIENTO ALMACENADO EN ORACLE
             CallableStatement cs = accesoDB.prepareCall("{CALL P_IN_EDIT_TRABAJADOR(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }");
             // SE RELLENAN TODOS LOS PARAMETROS
@@ -100,6 +89,9 @@ public class Trabajador_CRUD {
 
         String rptaEdit = null;
         int numFil = 0;
+        // FORMATEAR la fecha
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        fecha_nac = new java.sql.Date(fecha_nac.getTime());
 
         try {
             Connection accesoDB = Conexion.getConexion();
@@ -156,7 +148,7 @@ public class Trabajador_CRUD {
         try {
             Connection accesoDB = Conexion.getConexion();
             PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM TRABAJADOR WHERE NOMBRE LIKE (?)");
-            ps.setString(1, nombreBuscado);          
+            ps.setString(1, nombreBuscado);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 trabajador = new Trabajador();
@@ -177,7 +169,7 @@ public class Trabajador_CRUD {
                 trabajador.setCt(rs.getInt(15));
 
                 listaTrabajador.add(trabajador);
-                
+
             }
             Conexion.exitConexion();
 

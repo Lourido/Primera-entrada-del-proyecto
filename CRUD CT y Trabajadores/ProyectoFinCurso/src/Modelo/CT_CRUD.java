@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class CT_CRUD {
 
@@ -16,21 +17,9 @@ public class CT_CRUD {
     public String insertCT(int Id, String P_CT_nombre, String calle, int numero, String cp, String ciudad, String provincia, String telefono) {
         
         String rptaRegistro = null;
-        long myId = 0;
         
         try {
             Connection accesoDB = Conexion.getConexion();
-
-            // Ejecutamos la Secuencia para conocer el ID
-            String Identificador = "SELECT CT_ID.NEXTVAL FROM DUAL";
-            PreparedStatement ps = accesoDB.prepareStatement(Identificador);
-            synchronized(this){
-              ResultSet rs = ps.executeQuery();
-              if(rs.next())
-                  myId = rs.getLong(1);
-            }
-            Id = (int) myId;
-            
             // LLAMADA AL PROCEDIMIENTO ALMACENADO EN ORACLE
             CallableStatement cs = accesoDB.prepareCall("{CALL P_IN_EDIT_CT(?,?,?,?,?,?,?,?)} ");
             // SE RELLENAN TODOS LOS PARAMETROS
@@ -51,6 +40,7 @@ public class CT_CRUD {
             Conexion.exitConexion();
         
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
         }
         
         return rptaRegistro;

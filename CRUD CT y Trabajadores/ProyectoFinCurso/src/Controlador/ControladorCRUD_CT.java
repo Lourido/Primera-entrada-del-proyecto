@@ -93,8 +93,7 @@ public class ControladorCRUD_CT implements ActionListener, KeyListener {
 
         // CREAR: ALTA de datos nuevos
         if (e.getSource() == vista_CT_CRUD.jB_Crear) {
-            // Asigno el valor 0 al ID para que no de error antes de generarlo
-            // con la SECUENCIA de la base de datos
+            // Asigno el valor 0 al ID para que no de error antes de generarlo    
             int ID = 0;
             String Nombre = vista_CT_CRUD.jText_2.getText();
             String Calle = vista_CT_CRUD.jText_3.getText();

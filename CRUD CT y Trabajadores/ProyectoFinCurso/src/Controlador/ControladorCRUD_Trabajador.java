@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -91,7 +93,10 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
             columna[9] = ListaCopia.get(i).getTelef_personal();
             columna[10] = ListaCopia.get(i).getMovil_empresa();
             columna[11] = ListaCopia.get(i).getSalario();
-            columna[12] = ListaCopia.get(i).getFecha_nac();
+            // ARREGLAR EL FORMATO DE LA FECHA
+            String Fecha_YMD = ListaCopia.get(i).getFecha_nac().toString();
+            String Fecha_dma = Fecha_YMD.substring(8, 10)+"-"+Fecha_YMD.substring(5, 7)+"-"+Fecha_YMD.substring(0, 4);            
+            columna[12] = Fecha_dma;
             columna[13] = ListaCopia.get(i).getCategoria();
             columna[14] = ListaCopia.get(i).getCt();
 
@@ -127,7 +132,6 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
         // BOTON AÑADIR-CREAR
         if (e.getSource() == vista_Trabajador_CRUD.jB_Crear) {
             // Asigno el valor 0 al ID para que no de error antes de generarlo
-            // con la SECUENCIA de la base de datos
             int ID = 0;
             String dni = vista_Trabajador_CRUD.jText_2.getText();
             String Nombre = vista_Trabajador_CRUD.jText_3.getText();
@@ -177,7 +181,6 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
             int filaEditar = vista_Trabajador_CRUD.jTableDatos.getSelectedRow();
             int numFilas = vista_Trabajador_CRUD.jTableDatos.getSelectedRowCount();
             if (filaEditar >= 0 && numFilas == 1) {
-
                 // Subo los valores de la fila a los campos de edición
                 vista_Trabajador_CRUD.jText_1.setText(String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(filaEditar, 0)));
                 vista_Trabajador_CRUD.jText_2.setText(String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(filaEditar, 1)));
@@ -192,6 +195,16 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
                 vista_Trabajador_CRUD.jText_11.setText(String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(filaEditar, 10)));
                 vista_Trabajador_CRUD.jText_12.setText(String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(filaEditar, 11)));
                 vista_Trabajador_CRUD.jText_13.setText(String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(filaEditar, 12)));
+                // CONVERTIR EL STRING EN DATE     
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                String dateInString = vista_Trabajador_CRUD.jText_13.getText();
+                java.sql.Date FeNac = null;
+                try {
+                    Date parsed = formatter.parse(dateInString);
+                    FeNac = new java.sql.Date(parsed.getTime());
+                } catch (ParseException ex) {
+                    Logger.getLogger(ControladorCRUD_Trabajador.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 vista_Trabajador_CRUD.jComboBox14.setSelectedItem(String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(filaEditar, 13)));
                 vista_Trabajador_CRUD.jText_15.setText(String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(filaEditar, 14)));
                 // Como el ID es clave lo deshabilito para que no pueda modificarse

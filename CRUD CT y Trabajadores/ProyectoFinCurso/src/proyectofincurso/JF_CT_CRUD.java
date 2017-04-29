@@ -309,7 +309,6 @@ public class JF_CT_CRUD extends javax.swing.JFrame {
         JF_CT_CRUD vista_CT = new JF_CT_CRUD();
         CT_CRUD modelo_CT = new CT_CRUD();
         ControladorCRUD_CT controlador_CT = new ControladorCRUD_CT(vista_CT, modelo_CT);
-        vista_CT.jB_Leer.doClick();
     }//GEN-LAST:event_jB_CrearActionPerformed
 
     private void jText_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jText_1ActionPerformed
