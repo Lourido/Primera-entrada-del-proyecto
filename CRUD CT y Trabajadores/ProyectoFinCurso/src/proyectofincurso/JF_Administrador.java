@@ -167,7 +167,13 @@ public class JF_Administrador extends javax.swing.JFrame {
     private void jB_JF_Vehiculo_CRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_JF_Vehiculo_CRUDActionPerformed
 
         setVisible(false);
-        new JF_Vehiculo_CRUD().setVisible(true);
+        JF_Vehiculo_CRUD vista_Vehiculo = new JF_Vehiculo_CRUD();
+        Vehiculo_CRUD modelo_Vehiculo = new Vehiculo_CRUD();
+        ControladorCRUD_Vehiculo controlador_Vehiculo = new ControladorCRUD_Vehiculo(vista_Vehiculo, modelo_Vehiculo);
+        vista_Vehiculo.setVisible(true);
+        vista_Vehiculo.setLocationRelativeTo(null);
+        //vista_CT.jB_Leer.doClick();
+        vista_Vehiculo.jText_2.requestFocus();
 
     }//GEN-LAST:event_jB_JF_Vehiculo_CRUDActionPerformed
 
