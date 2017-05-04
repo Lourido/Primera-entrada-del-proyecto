@@ -75,6 +75,7 @@ public class ControladorCRUD_CT implements ActionListener, KeyListener {
     }
 
     public void limpiar() {
+        
         vista_CT_CRUD.jText_1.setText(null);
         vista_CT_CRUD.jText_1.setEditable(true);
         vista_CT_CRUD.jText_2.setText("");

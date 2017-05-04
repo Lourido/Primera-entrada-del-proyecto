@@ -21,14 +21,10 @@ public class JF_Administrador extends javax.swing.JFrame {
         jB_Trabajador_CRUD = new javax.swing.JButton();
         jB_JF_CT_CRUD = new javax.swing.JButton();
         jB_JF_Vehiculo_CRUD = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        jB_JF_Cabe_Parte_CRUD = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
+        jB_JF_Aviso_CRUD = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,17 +49,12 @@ public class JF_Administrador extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Visualizar Partes");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Trabajadores y Rango de fechas", "Rango de fechas" }));
-
-        jLabel1.setText("Filtrar por →");
-
-        jButton5.setText("Validar Parte");
-
-        jButton6.setText("Modificar y eliminar Partes");
-
-        jButton7.setText("Modificar contraseña");
+        jB_JF_Cabe_Parte_CRUD.setText("Gestión de Partes");
+        jB_JF_Cabe_Parte_CRUD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_JF_Cabe_Parte_CRUDActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -76,35 +67,35 @@ public class JF_Administrador extends javax.swing.JFrame {
             }
         });
 
+        jB_JF_Aviso_CRUD.setText("Gestión de Avisos");
+        jB_JF_Aviso_CRUD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_JF_Aviso_CRUDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(66, 66, 66)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jB_Trabajador_CRUD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jB_JF_CT_CRUD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jB_JF_Vehiculo_CRUD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(70, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jButton8)
                 .addGap(78, 78, 78))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jB_Trabajador_CRUD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jB_JF_CT_CRUD, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
+                            .addComponent(jB_JF_Vehiculo_CRUD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jB_JF_Cabe_Parte_CRUD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jB_JF_Aviso_CRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,24 +104,16 @@ public class JF_Administrador extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jB_Trabajador_CRUD)
-                .addGap(18, 18, 18)
-                .addComponent(jButton7)
-                .addGap(15, 15, 15)
-                .addComponent(jB_JF_CT_CRUD)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jB_JF_CT_CRUD)
+                .addGap(12, 12, 12)
                 .addComponent(jB_JF_Vehiculo_CRUD)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jButton5)
-                .addGap(18, 18, 18)
-                .addComponent(jButton6)
-                .addGap(33, 33, 33)
-                .addComponent(jButton8)
-                .addGap(19, 19, 19))
+                .addComponent(jB_JF_Aviso_CRUD)
+                .addGap(22, 22, 22)
+                .addComponent(jB_JF_Cabe_Parte_CRUD)
+                .addGap(48, 48, 48)
+                .addComponent(jButton8))
         );
 
         pack();
@@ -177,6 +160,32 @@ public class JF_Administrador extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jB_JF_Vehiculo_CRUDActionPerformed
 
+    private void jB_JF_Aviso_CRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_JF_Aviso_CRUDActionPerformed
+
+        setVisible(false);
+        JF_Aviso_CRUD vista_Aviso = new JF_Aviso_CRUD();
+        Aviso_CRUD modelo_Aviso = new Aviso_CRUD();
+        ControladorCRUD_Aviso controlador_Aviso = new ControladorCRUD_Aviso(vista_Aviso, modelo_Aviso);
+        vista_Aviso.setVisible(true);
+        vista_Aviso.setLocationRelativeTo(null);
+        //vista_CT.jB_Leer.doClick();
+        vista_Aviso.jText_1.requestFocus();
+
+    }//GEN-LAST:event_jB_JF_Aviso_CRUDActionPerformed
+
+    private void jB_JF_Cabe_Parte_CRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_JF_Cabe_Parte_CRUDActionPerformed
+
+        setVisible(false);
+        JF_Cabe_Parte_CRUD vista_Cabe_Parte_CRUD = new JF_Cabe_Parte_CRUD();
+        Cabe_Parte_CRUD modelo_Cabe_Parte_CRUD = new Cabe_Parte_CRUD();
+        ControladorCRUD_Cabe controlador_Cabe = new ControladorCRUD_Cabe(vista_Cabe_Parte_CRUD, modelo_Cabe_Parte_CRUD);
+        vista_Cabe_Parte_CRUD.setVisible(true);
+        vista_Cabe_Parte_CRUD.setLocationRelativeTo(null);
+        //vista_CT.jB_Leer.doClick();
+        vista_Cabe_Parte_CRUD.jText_1.requestFocus();
+        
+    }//GEN-LAST:event_jB_JF_Cabe_Parte_CRUDActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -190,16 +199,12 @@ public class JF_Administrador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jB_JF_Aviso_CRUD;
     private javax.swing.JButton jB_JF_CT_CRUD;
+    private javax.swing.JButton jB_JF_Cabe_Parte_CRUD;
     private javax.swing.JButton jB_JF_Vehiculo_CRUD;
     private javax.swing.JButton jB_Trabajador_CRUD;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

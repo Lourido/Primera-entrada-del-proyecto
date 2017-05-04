@@ -311,11 +311,6 @@ public class JF_CT_CRUD extends javax.swing.JFrame {
         ControladorCRUD_CT controlador_CT = new ControladorCRUD_CT(vista_CT, modelo_CT);
     }//GEN-LAST:event_jB_CrearActionPerformed
 
-    private void jText_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jText_1ActionPerformed
-        // FALTA CARGAR LA SECUENCIA DEL CT_ID PARA EL NÚMERO CORRELATIVO
-        
-    }//GEN-LAST:event_jText_1ActionPerformed
-
     private void jB_SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_SalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jB_SalirActionPerformed
@@ -341,6 +336,11 @@ public class JF_CT_CRUD extends javax.swing.JFrame {
     private void jB_ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ActualizarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jB_ActualizarActionPerformed
+
+    private void jText_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jText_1ActionPerformed
+        // FALTA CARGAR LA SECUENCIA DEL CT_ID PARA EL NÚMERO CORRELATIVO
+
+    }//GEN-LAST:event_jText_1ActionPerformed
 
     public static void main(String args[]) {
 

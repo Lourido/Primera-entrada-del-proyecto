@@ -5,6 +5,7 @@ import java.util.*;
 
 import Modelo.*;
 import proyectofincurso.JF_Trabajador_CRUD;
+import Modelo.CT_CRUD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,11 +20,14 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import proyectofincurso.JF_CT_CRUD;
 
 public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
 
     JF_Trabajador_CRUD vista_Trabajador_CRUD = new JF_Trabajador_CRUD();
     Trabajador_CRUD modelo_Trabajador_CRUD = new Trabajador_CRUD();
+    JF_CT_CRUD vista_CT_CRUD = new JF_CT_CRUD();
+    CT_CRUD modelo_CT_CRUD = new CT_CRUD();
 
     @SuppressWarnings("LeakingThisInConstructor")
     public ControladorCRUD_Trabajador(JF_Trabajador_CRUD vista_Trabajador_CRUD, Trabajador_CRUD modelo_Trabajador_CRUD) {
@@ -48,6 +52,7 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
         this.vista_Trabajador_CRUD.jText_11.addKeyListener(this);
         this.vista_Trabajador_CRUD.jText_12.addKeyListener(this);
         this.vista_Trabajador_CRUD.jText_13.addKeyListener(this);
+        this.vista_Trabajador_CRUD.jList_CT.addKeyListener(this);
     }
 
     @SuppressWarnings("unchecked")
@@ -95,7 +100,7 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
             columna[11] = ListaCopia.get(i).getSalario();
             // ARREGLAR EL FORMATO DE LA FECHA
             String Fecha_YMD = ListaCopia.get(i).getFecha_nac().toString();
-            String Fecha_dma = Fecha_YMD.substring(8, 10)+"-"+Fecha_YMD.substring(5, 7)+"-"+Fecha_YMD.substring(0, 4);            
+            String Fecha_dma = Fecha_YMD.substring(8, 10) + "-" + Fecha_YMD.substring(5, 7) + "-" + Fecha_YMD.substring(0, 4);
             columna[12] = Fecha_dma;
             columna[13] = ListaCopia.get(i).getCategoria();
             columna[14] = ListaCopia.get(i).getCt();
@@ -120,7 +125,7 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
         vista_Trabajador_CRUD.jText_11.setText("");
         vista_Trabajador_CRUD.jText_12.setText(null);
         vista_Trabajador_CRUD.jText_13.setText(null);
-        vista_Trabajador_CRUD.jText_15.setText(null);
+        vista_Trabajador_CRUD.jList_CT.setSelectedIndex(1);
 
         // Para que el cursor se ponga en este campo después de limpiar los datos
         vista_Trabajador_CRUD.jText_2.requestFocus();
@@ -154,9 +159,22 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
             } catch (ParseException ex) {
                 Logger.getLogger(ControladorCRUD_Trabajador.class.getName()).log(Level.SEVERE, null, ex);
             }
-
             String Categoria = vista_Trabajador_CRUD.jComboBox14.getSelectedItem().toString();
-            int CT = Integer.parseInt(vista_Trabajador_CRUD.jText_15.getText());
+
+            // Recojo el dato del NOMBRE del Centro de Trabajo
+            String Nombre_Centro_Trabajo = vista_Trabajador_CRUD.jList_CT.getSelectedValue().toString();
+            // Relleno el array con las categorías
+            List<CT> ListaCopia = new ArrayList<>();
+            ListaCopia = (List<CT>) modelo_CT_CRUD.listCT().clone();
+            int CT = 0;
+            int numRegistros = ListaCopia.size();
+            // Busco el ID correspondiente a ese nombre de categoría
+            for (int i = 0; i < numRegistros; i++) {
+                if (ListaCopia.get(i).getNombre().equals(Nombre_Centro_Trabajo)) {
+                    CT = ListaCopia.get(i).getID();
+                }
+            }
+
             String rptaRegistro = null;
             try {
                 rptaRegistro = modelo_Trabajador_CRUD.insertTrabajador(ID, dni, Nombre, Apellido1, Apellido2, Calle, Portal, Piso, Mano, T_P, T_E, Salario, FeNac, Categoria, CT);
@@ -206,7 +224,25 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
                     Logger.getLogger(ControladorCRUD_Trabajador.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 vista_Trabajador_CRUD.jComboBox14.setSelectedItem(String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(filaEditar, 13)));
-                vista_Trabajador_CRUD.jText_15.setText(String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(filaEditar, 14)));
+
+                String Categoria = vista_Trabajador_CRUD.jComboBox14.getSelectedItem().toString();
+
+                // Recojo el dato del ID del Centro de Trabajo
+                String ID_Centro_Trabajo = vista_Trabajador_CRUD.jList_CT.getSelectedValue().toString();
+                int CT = Integer.parseInt(ID_Centro_Trabajo);
+                String Centro = "";
+                // Relleno el array con las categorías
+                List<CT> ListaCopia = new ArrayList<>();
+                ListaCopia = (List<CT>) modelo_CT_CRUD.listCT().clone();
+                int numRegistros = ListaCopia.size();
+                // Busco el NOMBRE correspondiente a ese ID de categoría
+                for (int i = 0; i < numRegistros; i++) {
+                    if (ListaCopia.get(i).getID() == CT) {
+                        Centro = ListaCopia.get(i).getNombre();
+                    }
+                }
+                // Pongo el valor recogido de la Categoría en su sitio
+                vista_Trabajador_CRUD.jList_CT.setSelectedValue(Centro, true);
                 // Como el ID es clave lo deshabilito para que no pueda modificarse
                 vista_Trabajador_CRUD.jText_1.setEditable(false);
                 // Deshabilito los botones para que no puedan usarse durante la edición
@@ -329,13 +365,28 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
                     Logger.getLogger(ControladorCRUD_Trabajador.class
                             .getName()).log(Level.SEVERE, null, ex);
                 }
-
+                // Recojo el dato de la Categoría el NOMBRE
                 String Categoria = vista_Trabajador_CRUD.jComboBox14.getSelectedItem().toString();
-                int ct = Integer.parseInt(vista_Trabajador_CRUD.jText_15.getText());
+
+                // Recojo el dato del NOMBRE del Centro de Trabajo
+                String Nombre_Centro_Trabajo = vista_Trabajador_CRUD.jList_CT.getSelectedValue().toString();
+                // Relleno el array con las categorías
+                List<CT> ListaCopia = new ArrayList<>();
+                ListaCopia = (List<CT>) modelo_CT_CRUD.listCT().clone();
+                int CT = 0;
+                int numRegistros = ListaCopia.size();
+                // Busco el ID correspondiente a ese nombre de categoría
+                for (int i = 0; i < numRegistros; i++) {
+                    if (ListaCopia.get(i).getNombre().equals(Nombre_Centro_Trabajo)) {
+                        CT = ListaCopia.get(i).getID();
+                    }
+                }
+                // Pongo el valor recogido de la Categoría en su sitio
+                vista_Trabajador_CRUD.jList_CT.setSelectedValue(CT, true);
 
                 int rptaEdit = modelo_Trabajador_CRUD.editarTrabajador(ID, dni, Nombre,
                         Apellido1, Apellido2, Calle, Portal, Piso, Mano, T_P, T_E,
-                        Salario, FeNac, Categoria, ct);
+                        Salario, FeNac, Categoria, CT);
                 if (rptaEdit > 0) {
                     JOptionPane.showMessageDialog(null, "Edición Correcta");
                 } else {
