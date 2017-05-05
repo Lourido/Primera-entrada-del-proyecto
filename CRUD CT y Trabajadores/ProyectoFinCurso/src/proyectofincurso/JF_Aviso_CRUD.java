@@ -6,7 +6,7 @@ import Modelo.Aviso_CRUD;
 import java.lang.reflect.Method;
 import javax.swing.JOptionPane;
 import java.sql.*;
-import static proyectofincurso.InicioSesion.con;
+//import static proyectofincurso.InicioSesion.con;
 
 public class JF_Aviso_CRUD extends javax.swing.JFrame {
 

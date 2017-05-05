@@ -36,7 +36,7 @@ public class CT_CRUD {
             if (numFila > 0) {
                 rptaRegistro = "Registro ACTUALIZADO";               
             }
-
+            cs.close();
             Conexion.exitConexion();
         
         } catch (Exception e) {
@@ -65,6 +65,8 @@ public class CT_CRUD {
                 ct.setTelefono(rs.getString(8));
                 listaCT.add(ct);
             }
+            ps.close();
+            rs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {
@@ -97,7 +99,7 @@ public class CT_CRUD {
             if (numFila > 0) {
                 rptaEdit = "Registro ACTUALIZAZO";               
             }
-
+            cs.close();
             Conexion.exitConexion();
         
         } catch (Exception e) {
@@ -115,6 +117,7 @@ public class CT_CRUD {
             cs.setInt(1,Id);
 
             numFil = cs.executeUpdate();
+            cs.close();
             Conexion.exitConexion();
 
         } catch (SQLException ex) {
@@ -143,6 +146,8 @@ public class CT_CRUD {
                 ct.setTelefono(rs.getString(8));
                 listaCT.add(ct);
             }
+            ps.close();
+            rs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {

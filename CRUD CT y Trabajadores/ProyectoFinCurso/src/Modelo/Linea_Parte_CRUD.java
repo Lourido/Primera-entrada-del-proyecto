@@ -31,7 +31,7 @@ public class Linea_Parte_CRUD {
             if (numFila > 0) {
                 rptaRegistro = "Registro ACTUALIZADO";
             }
-
+            cs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {
@@ -59,6 +59,8 @@ public class Linea_Parte_CRUD {
                 linea_parte.setApellido1(rs.getString(6));
                 listaLinea_Parte.add(linea_parte);
             }
+            ps.close();
+            rs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {
@@ -87,7 +89,7 @@ public class Linea_Parte_CRUD {
             if (numFila > 0) {
                 rptaEdit = "Registro ACTUALIZAZO";
             }
-
+            cs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {
@@ -106,6 +108,7 @@ public class Linea_Parte_CRUD {
             cs.setInt(2, Id);
 
             numFil = cs.executeUpdate();
+            cs.close();
             Conexion.exitConexion();
 
         } catch (SQLException ex) {
@@ -133,6 +136,8 @@ public class Linea_Parte_CRUD {
 
                 listaLinea_Parte.add(linea_parte);
             }
+            ps.close();
+            rs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {

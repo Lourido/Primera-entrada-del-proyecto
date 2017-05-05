@@ -41,6 +41,7 @@ public class Trabajador_CRUD {
             if (numFila > 0) {
                 rptaRegistro = "Registro insertado";
             }
+            cs.close();
             Conexion.exitConexion();
         } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
@@ -76,6 +77,8 @@ public class Trabajador_CRUD {
 
                 listaTrabajador.add(trabajador);
             }
+            ps.close();
+            rs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {
@@ -116,7 +119,7 @@ public class Trabajador_CRUD {
             if (numFil > 0) {
                 rptaEdit = "Registro ACTUALIZAZO";
             }
-
+            cs.close();
             Conexion.exitConexion();
 
         } catch (SQLException ex) {
@@ -134,6 +137,7 @@ public class Trabajador_CRUD {
             cs.setInt(1, Id);
 
             numFil = cs.executeUpdate();
+            cs.close();
             Conexion.exitConexion();
 
         } catch (SQLException ex) {
@@ -171,6 +175,8 @@ public class Trabajador_CRUD {
                 listaTrabajador.add(trabajador);
 
             }
+            ps.close();
+            rs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {

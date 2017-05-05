@@ -42,7 +42,7 @@ public class Cabe_Parte_CRUD {
             if (numFila > 0) {
                 rptaCabe_Parte = "Registro ACTUALIZADO";               
             }
-
+            cs.close();
             Conexion.exitConexion();
         
         } catch (Exception e) {
@@ -76,6 +76,7 @@ public class Cabe_Parte_CRUD {
                 cabe_parte.setMatricula(rs.getString(13));                
                 listaCabe_Parte.add(cabe_parte);
             }
+            ps.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {
@@ -100,6 +101,8 @@ public class Cabe_Parte_CRUD {
 
                 listaVehiculo.add(vehiculo);
             }
+            ps.close();
+            rs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {
@@ -138,7 +141,7 @@ public class Cabe_Parte_CRUD {
             if (numFila > 0) {
                 rptaEdit = "Registro ACTUALIZAZO";               
             }
-
+            cs.close();
             Conexion.exitConexion();
         
         } catch (Exception e) {
@@ -157,6 +160,7 @@ public class Cabe_Parte_CRUD {
             cs.setInt(2,id);
 
             numFil = cs.executeUpdate();
+            cs.close();
             Conexion.exitConexion();
 
         } catch (SQLException ex) {
@@ -190,6 +194,8 @@ public class Cabe_Parte_CRUD {
                 cabe_parte.setMatricula(rs.getString(13));                
                 listaCabe_Parte.add(cabe_parte);
             }
+            ps.close();
+            rs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {

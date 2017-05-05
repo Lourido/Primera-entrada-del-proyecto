@@ -29,6 +29,10 @@ public class JF_Trabajador_CRUD extends javax.swing.JFrame {
         vehiculoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : vehiculoQuery.getResultList();
         centroTrabajoQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT c FROM CentroTrabajo c");
         centroTrabajoList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : centroTrabajoQuery1.getResultList();
+        alumnoQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT a FROM Alumno a");
+        alumnoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : alumnoQuery.getResultList();
+        centroTrabajoQuery2 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT c FROM CentroTrabajo c");
+        centroTrabajoList2 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : centroTrabajoQuery2.getResultList();
         jPanel1 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -336,7 +340,7 @@ public class JF_Trabajador_CRUD extends javax.swing.JFrame {
         jList_CT.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jList_CT.setToolTipText("");
 
-        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, centroTrabajoList, jList_CT, "List_CT");
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, centroTrabajoList2, jList_CT, "List_CT");
         jListBinding.setDetailBinding(org.jdesktop.beansbinding.ELProperty.create("${nombre}"));
         bindingGroup.addBinding(jListBinding);
 
@@ -651,10 +655,14 @@ public class JF_Trabajador_CRUD extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private java.util.List<proyectofincurso.Alumno> alumnoList;
+    private javax.persistence.Query alumnoQuery;
     private java.util.List<proyectofincurso.CentroTrabajo> centroTrabajoList;
     private java.util.List<proyectofincurso.CentroTrabajo> centroTrabajoList1;
+    private java.util.List<proyectofincurso.CentroTrabajo> centroTrabajoList2;
     private javax.persistence.Query centroTrabajoQuery;
     private javax.persistence.Query centroTrabajoQuery1;
+    private javax.persistence.Query centroTrabajoQuery2;
     private javax.persistence.EntityManager entityManager;
     public javax.swing.JButton jB_Actualizar;
     public javax.swing.JButton jB_Borrar;

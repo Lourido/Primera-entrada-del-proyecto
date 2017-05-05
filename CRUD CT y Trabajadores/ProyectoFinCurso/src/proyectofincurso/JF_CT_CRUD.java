@@ -5,7 +5,7 @@ import Modelo.CT_CRUD;
 import java.lang.reflect.Method;
 import javax.swing.JOptionPane;
 import java.sql.*;
-import static proyectofincurso.InicioSesion.con;
+//import static proyectofincurso.InicioSesion.con;
 
 public class JF_CT_CRUD extends javax.swing.JFrame {
     

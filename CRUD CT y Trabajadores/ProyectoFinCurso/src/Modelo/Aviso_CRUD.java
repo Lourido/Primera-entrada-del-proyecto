@@ -33,6 +33,7 @@ public class Aviso_CRUD {
                 rptaRegistro = "Registro ACTUALIZADO";
             }
 
+            cs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {
@@ -59,6 +60,8 @@ public class Aviso_CRUD {
 
                 listaAviso.add(aviso);
             }
+            ps.close();
+            rs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {
@@ -88,7 +91,7 @@ public class Aviso_CRUD {
             if (numFila > 0) {
                 rptaEdit = "Registro ACTUALIZAZO";
             }
-
+            cs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {
@@ -107,6 +110,7 @@ public class Aviso_CRUD {
             cs.setInt(2, id_trabajador_parte);
 
             numFil = cs.executeUpdate();
+            cs.close();
             Conexion.exitConexion();
 
         } catch (SQLException ex) {
@@ -135,6 +139,7 @@ public class Aviso_CRUD {
 
                 listaAviso.add(aviso);
             }
+            ps.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {

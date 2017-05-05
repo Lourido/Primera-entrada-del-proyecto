@@ -1,15 +1,20 @@
 package proyectofincurso;
 
-import Controlador.ControladorCRUD_CT;
-import Controlador.ControladorCRUD_Trabajador;
-import Modelo.CT_CRUD;
-import Modelo.Trabajador_CRUD;
 import Modelo.*;
 import proyectofincurso.*;
 import Controlador.*;
 
 public class JF_Administrador extends javax.swing.JFrame {
 
+    public JF_InicioSesion getInicioSesion(){
+        return inicioSesion;
+    }
+    
+    public void setInicioSesion (JF_InicioSesion inicioSesion){
+        this.inicioSesion = inicioSesion;
+    }
+    private JF_InicioSesion inicioSesion;
+    
     public JF_Administrador() {
         initComponents();
     }
@@ -176,13 +181,13 @@ public class JF_Administrador extends javax.swing.JFrame {
     private void jB_JF_Cabe_Parte_CRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_JF_Cabe_Parte_CRUDActionPerformed
 
         setVisible(false);
-        JF_Cabe_Parte_CRUD vista_Cabe_Parte_CRUD = new JF_Cabe_Parte_CRUD();
-        Cabe_Parte_CRUD modelo_Cabe_Parte_CRUD = new Cabe_Parte_CRUD();
-        ControladorCRUD_Cabe controlador_Cabe = new ControladorCRUD_Cabe(vista_Cabe_Parte_CRUD, modelo_Cabe_Parte_CRUD);
-        vista_Cabe_Parte_CRUD.setVisible(true);
-        vista_Cabe_Parte_CRUD.setLocationRelativeTo(null);
+        JF_Gestion_Parte_CRUD vista_Gestion_Parte_CRUD = new JF_Gestion_Parte_CRUD();
+        Gestion_Parte_CRUD modelo_Gestion_Parte_CRUD = new Gestion_Parte_CRUD();
+        ControladorCRUD_Gestion_Parte controlador_Gestion_Parte = new ControladorCRUD_Gestion_Parte(vista_Gestion_Parte_CRUD, modelo_Gestion_Parte_CRUD);
+        vista_Gestion_Parte_CRUD.setVisible(true);
+        vista_Gestion_Parte_CRUD.setLocationRelativeTo(null);
         //vista_CT.jB_Leer.doClick();
-        vista_Cabe_Parte_CRUD.jText_1.requestFocus();
+        vista_Gestion_Parte_CRUD.jTB_Fecha.requestFocus();
         
     }//GEN-LAST:event_jB_JF_Cabe_Parte_CRUDActionPerformed
 

@@ -213,7 +213,7 @@ public class ControladorCRUD_Trabajador implements ActionListener, KeyListener {
                 vista_Trabajador_CRUD.jText_11.setText(String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(filaEditar, 10)));
                 vista_Trabajador_CRUD.jText_12.setText(String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(filaEditar, 11)));
                 vista_Trabajador_CRUD.jText_13.setText(String.valueOf(vista_Trabajador_CRUD.jTableDatos.getValueAt(filaEditar, 12)));
-                // CONVERTIR EL STRING EN DATE     
+                // CONVERTIR EL STRING DE FECHA EN DATE     
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 String dateInString = vista_Trabajador_CRUD.jText_13.getText();
                 java.sql.Date FeNac = null;

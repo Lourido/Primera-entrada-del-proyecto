@@ -27,7 +27,7 @@ public class Vehiculo_CRUD {
             if (numFila > 0) {
                 rptaRegistro = "Registro ACTUALIZADO";
             }
-
+            cs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {
@@ -54,6 +54,8 @@ public class Vehiculo_CRUD {
 
                 listaVehiculo.add(vehiculo);
             }
+            ps.close();
+            rs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {
@@ -83,7 +85,7 @@ public class Vehiculo_CRUD {
             if (numFila > 0) {
                 rptaEdit = "Registro ACTUALIZAZO";
             }
-
+            cs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {
@@ -101,6 +103,7 @@ public class Vehiculo_CRUD {
             cs.setString(1, matricula);
 
             numFil = cs.executeUpdate();
+            cs.close();
             Conexion.exitConexion();
 
         } catch (SQLException ex) {
@@ -127,6 +130,8 @@ public class Vehiculo_CRUD {
                 
                 listaVehiculo.add(vehiculo);
             }
+            ps.close();
+            rs.close();
             Conexion.exitConexion();
 
         } catch (Exception e) {

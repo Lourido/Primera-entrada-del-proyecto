@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package proyectofincurso;
 
 import Modelo.*;
@@ -16,16 +12,13 @@ import java.sql.Types;
 import javax.swing.JOptionPane;
 
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- *
- * @author 7fbd12
- */
-public class InicioSesion extends javax.swing.JFrame {
 
-    /**
-     * @return the trabajador
-     */
+public class JF_InicioSesion extends javax.swing.JFrame {
+
+
     public Trabajador getTrabajador() {
         return trabajador;
     }
@@ -51,11 +44,11 @@ public class InicioSesion extends javax.swing.JFrame {
         this.claveTrabajador = claveTrabajador;
     }
 
-    public PantLogistica2 getPantallaLogistica2() {
+    public JF_Logistica getPantallaLogistica2() {
         return pantallaLogistica2;
     }
 
-    public void setPantallaLogistica2(PantLogistica2 pantallaLogistica2) {
+    public void setPantallaLogistica2(JF_Logistica pantallaLogistica2) {
         this.pantallaLogistica2 = pantallaLogistica2;
     }
 
@@ -74,8 +67,8 @@ public class InicioSesion extends javax.swing.JFrame {
      */
     private JF_Administrador pantallaAdministrador;
     //private PantLogistica1 pantallaLogistica1;
-    private PantLogistica2 pantallaLogistica2;
-    public static InicioSesion inisesion;
+    private JF_Logistica pantallaLogistica2;
+    public static JF_InicioSesion inisesion;
 
     //La conexion global para todo el programa
     public static Connection conexion;
@@ -91,7 +84,7 @@ public class InicioSesion extends javax.swing.JFrame {
     /**
      * Creates new form InicioSesion
      */
-    public InicioSesion() {
+    public JF_InicioSesion() {
         initComponents();
     }
 
@@ -213,16 +206,15 @@ public class InicioSesion extends javax.swing.JFrame {
 
     private void entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarActionPerformed
 
-        //Cuando meta los datos de usuario compruebe el usuario en la tabla de BD y la clave de ese usuario
-        String nombre = nombreText.getText();
-        String password = passwordText.getText();
-
-        //comprobar usuario y clave en tabla Clve
         try {
-            Class.forName("java.sql.DriverManager");
-            conexion = DriverManager.getConnection("jdbc:oracle:thin:@10.10.10.9:1521:db12102", "system", "oracle");
-            Statement sentencia = conexion.createStatement();
-            CallableStatement comprobar = conexion.prepareCall("{call LOGIN(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            //Cuando meta los datos de usuario compruebe el usuario en la tabla de BD y la clave de ese usuario
+            String nombre = nombreText.getText();
+            String password = passwordText.getText();
+            
+            //comprobar usuario y clave en tabla Clve
+            
+            Connection accesoDB = Conexion.getConexion();
+            CallableStatement comprobar = accesoDB.prepareCall("{call COMPROBAR_LOGIN(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
             //Los datos del usuario para iniciar sesion
             comprobar.setString(1, String.format(nombre));
             comprobar.setString(2, String.format(password));
@@ -257,12 +249,9 @@ public class InicioSesion extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Correcto");
                 //cerrar conexion del sistema y damos paso al trabajador con su usuario
                 comprobar.close();
-                conexion.close();
-                sentencia.close();
-                Class.forName("java.sql.DriverManager");
-                //Aqui pondria el usuario y contraseña del trabajador
-                conexion = DriverManager.getConnection("jdbc:oracle:thin:@10.10.10.9:1521:db12102", getClaveTrabajador().getUsuario(), getClaveTrabajador().getContrasenya());
-                sentencia = conexion.createStatement();
+                Conexion.exitConexion();
+                
+                Conexion.getConexion();
 
                 long seguir = getClaveTrabajador().comprobarFecha(getClaveTrabajador().getFecha());
 
@@ -284,7 +273,7 @@ public class InicioSesion extends javax.swing.JFrame {
                     } else {
                         //Abrir pantalla Logistica
                         if (getPantallaLogistica2() == null) {
-                            setPantallaLogistica2(new PantLogistica2());
+                            setPantallaLogistica2(new JF_Logistica());
                             getPantallaLogistica2().setInicioSesion(this);
                             getPantallaLogistica2().setVisible(true);
                         }
@@ -308,13 +297,14 @@ public class InicioSesion extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "ERROR USUARIO O CONTRASEÑA ERRONEOS", "Resultado", JOptionPane.ERROR_MESSAGE);
             }
 
-            sentencia.close();
+            Conexion.exitConexion();
 
             //sentencia.close();
             //conexion.close();
-        } catch (ClassNotFoundException | SQLException cn) {
-            cn.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(JF_InicioSesion.class.getName()).log(Level.SEVERE, null, ex);
         }
+
 
     }//GEN-LAST:event_entrarActionPerformed
 
@@ -363,21 +353,23 @@ public class InicioSesion extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InicioSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JF_InicioSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InicioSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JF_InicioSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InicioSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JF_InicioSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InicioSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JF_InicioSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InicioSesion().setVisible(true);
+                new JF_InicioSesion().setVisible(true);
             }
         });
         //Crear conexion con el servidor oracle 12c
