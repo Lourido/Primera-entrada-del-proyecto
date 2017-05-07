@@ -34,7 +34,14 @@ public class Cabe_Parte {
         id_trabajador=0;
         matricula="";        
     }
-    
+
+    public Date getExceso_horas() {
+        return exceso_horas;
+    }
+
+    public void setExceso_horas(Date exceso_horas) {
+        this.exceso_horas = exceso_horas;
+    }
     
     public Date getFecha() {
         return fecha;
@@ -70,13 +77,6 @@ public class Cabe_Parte {
         this.incidencias = incidencias;
     }
 
-    public Date getExceso_horas() {
-        return exceso_horas;
-    }
-
-    public void setExceso_horas(Date exceso_horas) {
-        this.exceso_horas = exceso_horas;
-    }
 
     public boolean isCerrar_parte() {
         return cerrar_parte;

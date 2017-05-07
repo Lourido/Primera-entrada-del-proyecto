@@ -13,45 +13,6 @@ public class Cabe_Parte_CRUD {
     public Cabe_Parte_CRUD() {
     }
 
-    @SuppressWarnings("UseSpecificCatch")
-    
-    public String insertCabe_Parte(java.sql.Date fecha, int km_in, int km_fin, double gasoil, double autopista, double dietas, double otros, String incidencias, java.sql.Date exceso_horas, boolean cerrar, boolean verificar, int id_trabajador, String matricula) {
-        
-        String rptaCabe_Parte = null;
-        
-        try {
-            Connection accesoDB = Conexion.getConexion();
-            // LLAMADA AL PROCEDIMIENTO ALMACENADO EN ORACLE
-            CallableStatement cs = accesoDB.prepareCall("{CALL P_IN_EDIT_Cabe_Parte(?,?,?,?,?,?,?,?,?,?,?,?,?)} ");
-            // SE RELLENAN TODOS LOS PARAMETROS
-            cs.setDate(1, fecha);
-            cs.setInt(2, km_in);
-            cs.setInt(3, km_fin);
-            cs.setDouble(4, gasoil);
-            cs.setDouble(5, autopista);
-            cs.setDouble(6, dietas);
-            cs.setDouble(7, otros);
-            cs.setString(8, incidencias);
-            cs.setDate(9, exceso_horas);
-            cs.setBoolean(10, cerrar);
-            cs.setBoolean(11, verificar);
-            cs.setInt(12, id_trabajador);
-            cs.setString(13, matricula);
-            
-            int numFila = cs.executeUpdate();
-            if (numFila > 0) {
-                rptaCabe_Parte = "Registro ACTUALIZADO";               
-            }
-            cs.close();
-            Conexion.exitConexion();
-        
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        
-        return rptaCabe_Parte;
-    }
-
     public ArrayList<Cabe_Parte> listCabe_Parte() {
         ArrayList listaCabe_Parte = new ArrayList();
         Cabe_Parte cabe_parte;

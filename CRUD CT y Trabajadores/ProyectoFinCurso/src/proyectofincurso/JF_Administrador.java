@@ -26,7 +26,7 @@ public class JF_Administrador extends javax.swing.JFrame {
         jB_Trabajador_CRUD = new javax.swing.JButton();
         jB_JF_CT_CRUD = new javax.swing.JButton();
         jB_JF_Vehiculo_CRUD = new javax.swing.JButton();
-        jB_JF_Cabe_Parte_CRUD = new javax.swing.JButton();
+        jB_JF_Gestion_Parte_CRUD = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
         jB_JF_Aviso_CRUD = new javax.swing.JButton();
@@ -54,10 +54,10 @@ public class JF_Administrador extends javax.swing.JFrame {
             }
         });
 
-        jB_JF_Cabe_Parte_CRUD.setText("Gestión de Partes");
-        jB_JF_Cabe_Parte_CRUD.addActionListener(new java.awt.event.ActionListener() {
+        jB_JF_Gestion_Parte_CRUD.setText("Gestión de Partes");
+        jB_JF_Gestion_Parte_CRUD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jB_JF_Cabe_Parte_CRUDActionPerformed(evt);
+                jB_JF_Gestion_Parte_CRUDActionPerformed(evt);
             }
         });
 
@@ -98,7 +98,7 @@ public class JF_Administrador extends javax.swing.JFrame {
                             .addComponent(jB_Trabajador_CRUD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jB_JF_CT_CRUD, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
                             .addComponent(jB_JF_Vehiculo_CRUD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jB_JF_Cabe_Parte_CRUD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jB_JF_Gestion_Parte_CRUD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jB_JF_Aviso_CRUD, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
@@ -116,7 +116,7 @@ public class JF_Administrador extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jB_JF_Aviso_CRUD)
                 .addGap(22, 22, 22)
-                .addComponent(jB_JF_Cabe_Parte_CRUD)
+                .addComponent(jB_JF_Gestion_Parte_CRUD)
                 .addGap(48, 48, 48)
                 .addComponent(jButton8))
         );
@@ -178,7 +178,7 @@ public class JF_Administrador extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jB_JF_Aviso_CRUDActionPerformed
 
-    private void jB_JF_Cabe_Parte_CRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_JF_Cabe_Parte_CRUDActionPerformed
+    private void jB_JF_Gestion_Parte_CRUDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_JF_Gestion_Parte_CRUDActionPerformed
 
         setVisible(false);
         JF_Gestion_Parte_CRUD vista_Gestion_Parte_CRUD = new JF_Gestion_Parte_CRUD();
@@ -187,9 +187,9 @@ public class JF_Administrador extends javax.swing.JFrame {
         vista_Gestion_Parte_CRUD.setVisible(true);
         vista_Gestion_Parte_CRUD.setLocationRelativeTo(null);
         //vista_CT.jB_Leer.doClick();
-        vista_Gestion_Parte_CRUD.jTB_Fecha.requestFocus();
+        //vista_Gestion_Parte_CRUD.jTextField1.requestFocus();
         
-    }//GEN-LAST:event_jB_JF_Cabe_Parte_CRUDActionPerformed
+    }//GEN-LAST:event_jB_JF_Gestion_Parte_CRUDActionPerformed
 
     /**
      * @param args the command line arguments
@@ -206,7 +206,7 @@ public class JF_Administrador extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_JF_Aviso_CRUD;
     private javax.swing.JButton jB_JF_CT_CRUD;
-    private javax.swing.JButton jB_JF_Cabe_Parte_CRUD;
+    private javax.swing.JButton jB_JF_Gestion_Parte_CRUD;
     private javax.swing.JButton jB_JF_Vehiculo_CRUD;
     private javax.swing.JButton jB_Trabajador_CRUD;
     private javax.swing.JButton jButton8;
