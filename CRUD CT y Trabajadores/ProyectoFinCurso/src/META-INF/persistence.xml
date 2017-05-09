@@ -4,7 +4,9 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>proyectofincurso.Vehiculo</class>
     <class>proyectofincurso.CentroTrabajo</class>
-    <class>proyectofincurso.Alumno</class>
+    <class>proyectofincurso.Trabajador</class>
+    <class>proyectofincurso.Cp</class>
+    <class>proyectofincurso.Aviso</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@192.168.56.101:1521:XE"/>
       <property name="javax.persistence.jdbc.user" value="SYSTEM"/>

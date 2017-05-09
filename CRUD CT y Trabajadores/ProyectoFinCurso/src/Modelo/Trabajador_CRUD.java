@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import oracle.jdbc.OracleTypes;
 
 public class Trabajador_CRUD {
 
@@ -55,8 +56,11 @@ public class Trabajador_CRUD {
 
         try {
             Connection accesoDB = Conexion.getConexion();
-            PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM TRABAJADOR");
-            ResultSet rs = ps.executeQuery();
+            CallableStatement cs = accesoDB.prepareCall("{CALL P_LISTA_TRABAJADOR (?)}");
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs = (ResultSet) cs.getObject(1);
+
             while (rs.next()) {
                 trabajador = new Trabajador();
                 trabajador.setID_trabajador(rs.getInt(1));
@@ -77,7 +81,7 @@ public class Trabajador_CRUD {
 
                 listaTrabajador.add(trabajador);
             }
-            ps.close();
+            cs.close();
             rs.close();
             Conexion.exitConexion();
 
@@ -151,9 +155,15 @@ public class Trabajador_CRUD {
         Trabajador trabajador;
         try {
             Connection accesoDB = Conexion.getConexion();
-            PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM TRABAJADOR WHERE NOMBRE LIKE (?)");
+            /*            PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM TRABAJADOR WHERE NOMBRE LIKE (?)");
             ps.setString(1, nombreBuscado);
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();*/
+            CallableStatement cs = accesoDB.prepareCall("{CALL P_SELECT_TRABAJADOR (?,?)}");
+            cs.setString(1, nombreBuscado);
+            cs.registerOutParameter(2, OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs = (ResultSet) cs.getObject(2);
+
             while (rs.next()) {
                 trabajador = new Trabajador();
                 trabajador.setID_trabajador(rs.getInt(1));
@@ -175,7 +185,7 @@ public class Trabajador_CRUD {
                 listaTrabajador.add(trabajador);
 
             }
-            ps.close();
+            cs.close();
             rs.close();
             Conexion.exitConexion();
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import oracle.jdbc.OracleTypes;
 
 public class Gestion_Parte_CRUD {
 
@@ -17,8 +18,11 @@ public class Gestion_Parte_CRUD {
         Vista_CP vista_cp;
         try {
             Connection accesoDB = Conexion.getConexion();
-            PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM CP_VISTA");
-            ResultSet rs = ps.executeQuery();
+            CallableStatement cs = accesoDB.prepareCall("{CALL P_LISTA_GESTION (?)}");
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs = (ResultSet) cs.getObject(1);
+
             while (rs.next()) {
                 vista_cp = new Vista_CP();
                 vista_cp.setFecha(rs.getDate(1));
@@ -39,7 +43,7 @@ public class Gestion_Parte_CRUD {
 
                 listaVista_CP.add(vista_cp);
             }
-            ps.close();
+            cs.close();
             rs.close();
             Conexion.exitConexion();
 
@@ -54,8 +58,11 @@ public class Gestion_Parte_CRUD {
         Vehiculo vehiculo;
         try {
             Connection accesoDB = Conexion.getConexion();
-            PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM VEHICULO");
-            ResultSet rs = ps.executeQuery();
+            CallableStatement cs = accesoDB.prepareCall("{CALL P_LISTA_VEHICULO (?)}");
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs = (ResultSet) cs.getObject(1);            
+            
             while (rs.next()) {
                 vehiculo = new Vehiculo();
                 vehiculo.setMatricula(rs.getString(1));
@@ -66,7 +73,7 @@ public class Gestion_Parte_CRUD {
 
                 listaVehiculo.add(vehiculo);
             }
-            ps.close();
+            cs.close();
             rs.close();
             Conexion.exitConexion();
 
@@ -140,11 +147,14 @@ public class Gestion_Parte_CRUD {
         if (fechaBuscado != null) {
             try {
                 Connection accesoDB = Conexion.getConexion();
-                PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM CP_VISTA WHERE FECHA = (?) AND CERRAR_LOGIS = (?) AND VERIFICACIÓN_ADMIN = (?)");
-                ps.setDate(1, fechaBuscado);
-                ps.setString(2, cerrado);
-                ps.setString(3, verificado);
-                ResultSet rs = ps.executeQuery();
+                CallableStatement cs = accesoDB.prepareCall("{CALL P_SELECT_GESTION (?,?,?,?)}");
+                cs.setDate(1, fechaBuscado);
+                cs.setString(2, cerrado);
+                cs.setString(3, verificado);
+                cs.registerOutParameter(4, OracleTypes.CURSOR);
+                cs.execute();
+                ResultSet rs = (ResultSet) cs.getObject(4);
+
                 while (rs.next()) {
                     vista_cp = new Vista_CP();
                     vista_cp.setFecha(rs.getDate(1));
@@ -165,7 +175,7 @@ public class Gestion_Parte_CRUD {
                     vista_cp.setCt(rs.getInt(16));
                     listaGestion_Parte.add(vista_cp);
                 }
-                ps.close();
+                cs.close();
                 rs.close();
                 Conexion.exitConexion();
 
@@ -175,10 +185,12 @@ public class Gestion_Parte_CRUD {
         } else {
             try {
                 Connection accesoDB = Conexion.getConexion();
-                PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM CP_VISTA WHERE CERRAR_LOGIS = (?) AND VERIFICACIÓN_ADMIN = (?)");
-                ps.setString(1, cerrado);
-                ps.setString(2, verificado);
-                ResultSet rs = ps.executeQuery();
+                CallableStatement cs = accesoDB.prepareCall("{CALL P_SELECT_CRD_VFD (?,?,?)}");
+                cs.setString(1, cerrado);
+                cs.setString(2, verificado);
+                cs.registerOutParameter(3, OracleTypes.CURSOR);
+                cs.execute();
+                ResultSet rs = (ResultSet) cs.getObject(3);
                 while (rs.next()) {
                     vista_cp = new Vista_CP();
                     vista_cp.setFecha(rs.getDate(1));
@@ -199,7 +211,7 @@ public class Gestion_Parte_CRUD {
                     vista_cp.setCt(rs.getInt(16));
                     listaGestion_Parte.add(vista_cp);
                 }
-                ps.close();
+                cs.close();
                 rs.close();
                 Conexion.exitConexion();
 

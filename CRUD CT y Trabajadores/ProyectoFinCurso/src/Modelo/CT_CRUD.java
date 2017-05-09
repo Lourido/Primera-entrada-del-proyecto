@@ -5,19 +5,19 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import oracle.jdbc.OracleTypes;
 
 public class CT_CRUD {
-
 
     public CT_CRUD() {
     }
 
     @SuppressWarnings("UseSpecificCatch")
-    
+
     public String insertCT(int Id, String P_CT_nombre, String calle, int numero, String cp, String ciudad, String provincia, String telefono) {
-        
+
         String rptaRegistro = null;
-        
+
         try {
             Connection accesoDB = Conexion.getConexion();
             // LLAMADA AL PROCEDIMIENTO ALMACENADO EN ORACLE
@@ -34,15 +34,15 @@ public class CT_CRUD {
 
             int numFila = cs.executeUpdate();
             if (numFila > 0) {
-                rptaRegistro = "Registro ACTUALIZADO";               
+                rptaRegistro = "Registro ACTUALIZADO";
             }
             cs.close();
             Conexion.exitConexion();
-        
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        
+
         return rptaRegistro;
     }
 
@@ -51,8 +51,11 @@ public class CT_CRUD {
         CT ct;
         try {
             Connection accesoDB = Conexion.getConexion();
-            PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM CENTRO_TRABAJO");
-            ResultSet rs = ps.executeQuery();
+            CallableStatement cs = accesoDB.prepareCall("{CALL P_LISTA_CT (?)}");
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs = (ResultSet) cs.getObject(1);
+
             while (rs.next()) {
                 ct = new CT();
                 ct.setID(rs.getInt(1));
@@ -65,7 +68,7 @@ public class CT_CRUD {
                 ct.setTelefono(rs.getString(8));
                 listaCT.add(ct);
             }
-            ps.close();
+            cs.close();
             rs.close();
             Conexion.exitConexion();
 
@@ -76,13 +79,13 @@ public class CT_CRUD {
     }
 
     public String editarCT(int Id, String nombre, String calle, int numero, String cp, String ciudad, String provincia, String telefono) {
-        
-        String rptaEdit =null;
+
+        String rptaEdit = null;
         int numFil = 0;
 
         try {
             Connection accesoDB = Conexion.getConexion();
-            
+
             // LLAMADA AL PROCEDIMIENTO ALMACENADO EN ORACLE
             CallableStatement cs = accesoDB.prepareCall("{CALL P_IN_EDIT_CT(?,?,?,?,?,?,?,?)} ");
             // SE RELLENAN TODOS LOS PARAMETROS
@@ -97,14 +100,14 @@ public class CT_CRUD {
 
             int numFila = cs.executeUpdate();
             if (numFila > 0) {
-                rptaEdit = "Registro ACTUALIZAZO";               
+                rptaEdit = "Registro ACTUALIZAZO";
             }
             cs.close();
             Conexion.exitConexion();
-        
+
         } catch (Exception e) {
         }
-        
+
         return rptaEdit;
     }
 
@@ -114,7 +117,7 @@ public class CT_CRUD {
         try {
             Connection accesoDB = Conexion.getConexion();
             CallableStatement cs = accesoDB.prepareCall("{CALL P_DELETE_CT(?)}");
-            cs.setInt(1,Id);
+            cs.setInt(1, Id);
 
             numFil = cs.executeUpdate();
             cs.close();
@@ -124,6 +127,39 @@ public class CT_CRUD {
             Logger.getLogger(CT_CRUD.class.getName()).log(Level.SEVERE, null, ex);
         }
         return numFil;
+    }
+
+    public ArrayList<CT> buscarCTxProcedimiento(String nombreBuscado) {
+        ArrayList<CT> listaCT = new ArrayList();
+        CT ct;
+        try {
+            Connection accesoDB = Conexion.getConexion();
+            CallableStatement cs = accesoDB.prepareCall("{CALL P_SELECT_CT (?,?)}");
+            cs.setString(1, nombreBuscado);
+            cs.registerOutParameter(2, OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs = (ResultSet) cs.getObject(2);
+
+            while (rs.next()) {
+                ct = new CT();
+                ct.setID(rs.getInt(1));
+                ct.setNombre(rs.getString(2));
+                ct.setCalle(rs.getString(3));
+                ct.setNumero(rs.getInt(4));
+                ct.setCp(rs.getString(5));
+                ct.setCiudad(rs.getString(6));
+                ct.setProvincia(rs.getString(7));
+                ct.setTelefono(rs.getString(8));
+                listaCT.add(ct);
+            }
+            cs.close();
+            rs.close();
+            Conexion.exitConexion();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CT_CRUD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaCT;
     }
 
     public ArrayList<CT> buscarCTxNombre(String nombreBuscado) {

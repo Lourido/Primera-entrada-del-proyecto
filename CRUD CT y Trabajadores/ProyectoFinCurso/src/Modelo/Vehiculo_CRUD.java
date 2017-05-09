@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import oracle.jdbc.OracleTypes;
 
 public class Vehiculo_CRUD {
 
@@ -42,8 +43,13 @@ public class Vehiculo_CRUD {
         Vehiculo vehiculo;
         try {
             Connection accesoDB = Conexion.getConexion();
-            PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM VEHICULO");
-            ResultSet rs = ps.executeQuery();
+            /*            PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM VEHICULO");
+            ResultSet rs = ps.executeQuery();*/
+            CallableStatement cs = accesoDB.prepareCall("{CALL P_LISTA_VEHICULO (?)}");
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs = (ResultSet) cs.getObject(1);
+
             while (rs.next()) {
                 vehiculo = new Vehiculo();
                 vehiculo.setMatricula(rs.getString(1));
@@ -54,7 +60,7 @@ public class Vehiculo_CRUD {
 
                 listaVehiculo.add(vehiculo);
             }
-            ps.close();
+            cs.close();
             rs.close();
             Conexion.exitConexion();
 
@@ -65,7 +71,7 @@ public class Vehiculo_CRUD {
     }
 
     public String editarVehiculo(String matricula, String marca, String modelo, String color, int kms) {
-        
+
         String rptaEdit = null;
         int numFil = 0;
 
@@ -117,9 +123,15 @@ public class Vehiculo_CRUD {
         Vehiculo vehiculo;
         try {
             Connection accesoDB = Conexion.getConexion();
-            PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM VEHICULO WHERE MATRICULA LIKE (?)");
+            /*            PreparedStatement ps = accesoDB.prepareStatement("SELECT * FROM VEHICULO WHERE MATRICULA LIKE (?)");
             ps.setString(1, nombreBuscado);
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();*/
+            CallableStatement cs = accesoDB.prepareCall("{CALL P_SELECT_VEHICULO (?,?)}");
+            cs.setString(1, nombreBuscado);
+            cs.registerOutParameter(2, OracleTypes.CURSOR);
+            cs.execute();
+            ResultSet rs = (ResultSet) cs.getObject(2);
+
             while (rs.next()) {
                 vehiculo = new Vehiculo();
                 vehiculo.setMatricula(rs.getString(1));
@@ -127,10 +139,10 @@ public class Vehiculo_CRUD {
                 vehiculo.setModelo(rs.getString(3));
                 vehiculo.setColor(rs.getString(4));
                 vehiculo.setKms(rs.getInt(5));
-                
+
                 listaVehiculo.add(vehiculo);
             }
-            ps.close();
+            cs.close();
             rs.close();
             Conexion.exitConexion();
 

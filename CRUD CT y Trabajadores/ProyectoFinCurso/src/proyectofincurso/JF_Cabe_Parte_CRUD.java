@@ -23,7 +23,7 @@ public class JF_Cabe_Parte_CRUD extends javax.swing.JFrame {
         vehiculoQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT v FROM Vehiculo v");
         vehiculoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : vehiculoQuery.getResultList();
         alumnoQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT a FROM Alumno a");
-        alumnoList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : alumnoQuery.getResultList();
+  
         vehiculoQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT v FROM Vehiculo v");
         vehiculoList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : vehiculoQuery1.getResultList();
         jPanel1 = new javax.swing.JPanel();
@@ -480,7 +480,7 @@ public class JF_Cabe_Parte_CRUD extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -512,7 +512,6 @@ public class JF_Cabe_Parte_CRUD extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.util.List<proyectofincurso.Alumno> alumnoList;
     private javax.persistence.Query alumnoQuery;
     private javax.persistence.EntityManager entityManager;
     public javax.swing.JButton jB_Actualizar;
